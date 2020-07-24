@@ -38,7 +38,7 @@ cms.registerSchemas([
 ])
 
 cms.run({
-  name: process.env.NAME,
+  name: process.env.PROJECT_NAME,
   mongoURL: process.env.MONGO_URL,
   bucketName: process.env.BUCKET_NAME,
   iamUserKey: process.env.IAM_USER_KEY,
