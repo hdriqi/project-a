@@ -1,18 +1,14 @@
 <template>
-  <div>
-    <h1>Hello {{ name }}!</h1>
-    <Schedule />
-  </div>
+  <h1>Custom Component!</h1>
 </template>
 
 <script>
 import axios from 'axios'
 
 export default {
-  async asyncData (context) {
+  async mounted () {
     const response = await axios.get('http://localhost:8000/api/schemas')
     console.log(response.data)
-    return { name: 'World' }
   }
 }
 </script>

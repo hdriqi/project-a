@@ -1,6 +1,15 @@
-import cms from '../lib'
+import CMS from '../lib'
 
-cms({
+const cms = new CMS()
+
+cms.registerComponents([
+  {
+    name: 'Schedule',
+    component: 'InputSchedule'
+  }
+])
+
+cms.registerSchemas({
   schemas: [
     {
       name: 'Post',
@@ -10,9 +19,16 @@ cms({
           name: 'title',
           type: 'text',
           validation: (input) => {
-            return input.length > 0
+            return [input.length > 0, 'Title must be at least 1 characters']
           },
-        }
+        },
+        {
+          name: 'title',
+          type: 'schedule',
+          validation: (input) => {
+            return [input.length > 0, 'Title must be at least 1 characters']
+          },
+        },
       ],
       afterSave: (data) => {
         console.log(`Sent email notification new post ${data.id} to subscribers`)
@@ -20,3 +36,5 @@ cms({
     }
   ]
 })
+
+cms.run()
