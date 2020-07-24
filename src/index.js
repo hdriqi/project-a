@@ -44,7 +44,7 @@ cms.registerSchemas([
         },
       },
     ],
-    afterSave: (data) => {
+    afterCreate: (data) => {
       console.log(`Sent email notification new post ${data.id} to subscribers`)
       if (SENT_EMAIL) {
         transporter.sendMail({
