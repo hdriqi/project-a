@@ -1,7 +1,13 @@
 <template>
   <div>
-    <h1>Hello {{ name }}!</h1>
-    <Schedule />
+    <h1>Hello!</h1>
+    <div v-for="schema in schemas" :key="schema.name">
+      <p>{{schema.name}}</p>
+      <div v-for="field in schema.fields" :key="field.name">
+        <p>{{field.name}}</p>
+        <components v-model="form[field.name]" :is="field.type" />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -11,8 +17,15 @@ import axios from 'axios'
 export default {
   async asyncData (context) {
     const response = await axios.get('http://localhost:8000/api/schemas')
-    console.log(response.data)
-    return { name: 'World' }
+    return { 
+      schemas: response.data.data.schemas
+    }
+  },
+
+  data() {
+    return {
+      form: {}
+    }
   }
 }
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <h1>Custom Component!</h1>
+  <input type="text" />
 </template>
 
 <script>

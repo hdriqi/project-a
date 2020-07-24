@@ -4,7 +4,7 @@ const cms = new CMS()
 
 cms.registerComponents([
   {
-    name: 'Schedule',
+    name: 'schedule',
     component: 'InputSchedule'
   }
 ])
