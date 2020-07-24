@@ -1,5 +1,7 @@
+import dotenv from 'dotenv'
 import CMS from '../lib'
 
+dotenv.config()
 const cms = new CMS()
 
 cms.registerComponents([
@@ -36,5 +38,9 @@ cms.registerSchemas([
 ])
 
 cms.run({
-  name: 'electrum'
+  name: process.env.NAME,
+  mongoURL: process.env.MONGO_URL,
+  bucketName: process.env.BUCKET_NAME,
+  iamUserKey: process.env.IAM_USER_KEY,
+  iamUserSecret: process.env.IAM_USER_SECRET
 })
