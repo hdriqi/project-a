@@ -9,32 +9,32 @@ cms.registerComponents([
   }
 ])
 
-cms.registerSchemas({
-  schemas: [
-    {
-      name: 'Post',
-      type: 'content',
-      fields: [
-        {
-          name: 'title',
-          type: 'text',
-          validation: (input) => {
-            return [input.length > 0, 'Title must be at least 1 characters']
-          },
+cms.registerSchemas([
+  {
+    name: 'Post',
+    type: 'content',
+    fields: [
+      {
+        name: 'title',
+        type: 'text',
+        validation: (input) => {
+          return [input.length > 0, 'Title must be at least 1 characters']
         },
-        {
-          name: 'title',
-          type: 'schedule',
-          validation: (input) => {
-            return [input.length > 0, 'Title must be at least 1 characters']
-          },
+      },
+      {
+        name: 'title',
+        type: 'schedule',
+        validation: (input) => {
+          return [input.length > 0, 'Title must be at least 1 characters']
         },
-      ],
-      afterSave: (data) => {
-        console.log(`Sent email notification new post ${data.id} to subscribers`)
-      }
+      },
+    ],
+    afterSave: (data) => {
+      console.log(`Sent email notification new post ${data.id} to subscribers`)
     }
-  ]
-})
+  }
+])
 
-cms.run()
+cms.run({
+  name: 'electrum'
+})
