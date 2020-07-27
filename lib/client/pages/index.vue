@@ -13,6 +13,7 @@
 
 <script>
 import axios from 'axios'
+import schemas from '../generated/generated_schemas.js'
 
 export default {
   async asyncData (context) {
@@ -23,6 +24,7 @@ export default {
   },
 
   data() {
+    console.log(schemas)
     return {
       form: {}
     }
