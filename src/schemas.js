@@ -1,132 +1,173 @@
 module.exports = [
   {
-    name: 'Student',
-    type: 'Form',
+    name: "Student",
+    type: "Form",
     fields: [
       {
-        name: 'fullname',
-        type: 'text'
+        name: "fullname",
+        type: "text",
+        component: "text",
       },
       {
-        name: 'additionalStudentFullname',
-        type: 'array_text'
+        name: "additionalStudentFullname",
+        type: "array_text",
+        component: "text",
       },
       {
-        name: 'class',
-        type: 'enum',
-        default: [
-          1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12
-        ]
+        name: "class",
+        type: "enum",
+        default: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+        component: "dropdown",
       },
       {
-        name: 'school',
-        type: 'text'
+        name: "school",
+        type: "text",
+        component: "text",
       },
       {
-        name: 'phoneNumber',
-        type: 'text'
+        name: "phoneNumber",
+        type: "text",
+        component: "text",
       },
       {
-        name: 'email',
-        type: 'text'
+        name: "email",
+        type: "text",
+        component: "text",
       },
       {
-        name: 'parentName',
-        type: 'text'
+        name: "parentName",
+        type: "text",
+        component: "text-dropdown",
+        default: ["Ny.", "Tn.", "Ibu.", "Bpk."],
       },
       {
-        name: 'parentPhoneNumber',
-        type: 'text'
+        name: "parentPhoneNumber",
+        type: "text",
+        component: "text",
       },
       {
-        name: 'parentEmail',
-        type: 'text'
+        name: "parentEmail",
+        type: "text",
+        component: "text",
+      },
+      /*
+      Custom ProvinceCityAddress
+      {
+        name: "addressProvince",
+        type: "text",
+        component: "dropdown",
+        default: ["DKI Jakarta", "Banten", "Jawa Barat"],
       },
       {
-        name: 'addressProvince',
-        type: 'text'
+        name: "addressCity",
+        type: "text",
+        component: "dropdown",
+        default: {
+          "DKI Jakarta": [
+            "Jakarta Utara",
+            "Jakarta Selatan",
+            "Jakarta Barat",
+            "Jakarta Timur",
+            "Jakarta Pusat",
+          ],
+          Banten: ["Tangerang", "Tangerang Selatan"],
+          "Jawa Barat": ["Bekasi", "Bogor", "Depok"],
+        },
+      },
+      */
+      {
+        name: "addressStreet",
+        type: "text",
+        component: "text",
       },
       {
-        name: 'addressCity',
-        type: 'text'
+        name: "addressUrban",
+        type: "text",
+        component: "text",
       },
       {
-        name: 'addressStreet',
-        type: 'text'
+        name: "addressSubDistrict",
+        type: "text",
+        component: "text",
       },
       {
-        name: 'addressUrban',
-        type: 'text'
+        name: "subjects",
+        type: "array_text",
+        default: ["Matematika", "Fisika", "Kimia", "Biologi"],
+        component: "checkbox",
       },
       {
-        name: 'addressSubDistrict',
-        type: 'text'
+        name: "schedule",
+        type: "array_schedule",
+        component: "schedule",
+        componentType: "student",
+        scheduleMin:3
       },
       {
-        name: 'subjects',
-        type: 'array_text',
-        default: [
-          'Matematika',
-          'Fisika',
-          'Kimia',
-          'Biologi',
-        ]
+        name: "scheduleAdditional",
+        type: "text",
+        component: "text",
       },
       {
-        name: 'schedule',
-        type: 'array_schedule'
+        name: "teacher",
+        type: "array_text",
+        default: ["Laki-laki", "Wanita"],
+        component: "checkbox",
       },
       {
-        name: 'scheduleAdditional',
-        type: 'text'
+        name: "studentNotes",
+        type: "text",
+        component: "textarea",
+      },
+      /*
+      Custom Group
+      {
+        name: "group",
+        type: "choice",
+        default: ["Ya", "Tidak"],
+        component: "radio",
       },
       {
-        name: 'teacher',
-        type: 'array_text',
-        default: [
-          'Laki-laki',
-          'Wanite'
-        ]
+        name: "groupNumber",
+        type: "enum",
+        component: "dropdown",
+        default: [1, 2, 3, 4, 5, 6],
       },
+      */
       {
-        name: 'notes',
-        type: 'choice',
-        default: [
-          'Ya',
-          'Tidak'
-        ]
+        name: "studentTotalName",
+        type: "enum",
+        default: ["Paket 8 sesi", "Paket 24 sesi", "Paket 48 sesi"],
+        component: "radio",
       },
-      {
-        name: 'studentTotalName',
-        type: 'enum',
-        default: [
-          'Paket 8 sesi',
-          'Paket 24 sesi',
-          'Paket 48 sesi',
-        ]
-      },
-    ]
+    ],
   },
   {
-    name: 'Post',
-    type: 'content',
+    name: "Post",
+    type: "content",
     fields: [
       {
-        name: 'title',
-        type: 'text',
+        name: "title",
+        type: "text",
+        component: "text",
         validation: (input) => {
-          return [input.length > 0, 'Title must be at least 1 characters']
+          return [input.length > 0, "Title must be at least 1 characters"];
         },
       },
       {
-        name: 'title',
-        type: 'schedule',
+        name: "schedule",
+        type: "schedule",
+        component: "schedule",
+        componentType: "teacher",
+        scheduleMin:4,
         validation: (input) => {
-          return [input.length > 0, 'Title must be at least 1 characters']
+          return [input.length > 0, "Title must be at least 1 characters"];
         },
       },
     ],
     afterCreate: (data) => {
+      console.log(`Sent email notification new post to subscribers`);
+      /*
       console.log(`Sent email notification new post ${data.id} to subscribers`)
       if (SENT_EMAIL) {
         transporter.sendMail({
@@ -143,6 +184,7 @@ module.exports = [
           console.log(info.messageId);
         })
       }
-    }
-  }
-]
+      */
+    },
+  },
+];
