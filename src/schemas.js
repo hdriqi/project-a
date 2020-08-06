@@ -178,27 +178,6 @@ module.exports = [
           return [input.length > 0, "Title must be at least 1 characters"];
         },
       },
-    ],
-    afterCreate: (data) => {
-      console.log(`Sent email notification new post to subscribers`);
-      /*
-      console.log(`Sent email notification new post ${data.id} to subscribers`)
-      if (SENT_EMAIL) {
-        transporter.sendMail({
-          from: 'notification@evius.id',
-          to: 'riqi.asdf@gmail.com',
-          subject: 'New Data',
-          text: 'New Data on Post collection'
-        }, (err, info) => {
-          if (err) {
-            console.log(err)
-            return
-          }
-          console.log(info.envelope);
-          console.log(info.messageId);
-        })
-      }
-      */
-    },
+    ]
   },
 ];

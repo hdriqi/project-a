@@ -1,21 +1,9 @@
 import dotenv from 'dotenv'
 import CMS from '../lib'
-import nodemailer from 'nodemailer'
 import aws from 'aws-sdk'
-
-const SENT_EMAIL = false
 
 dotenv.config()
 const cms = new CMS()
-
-const transporter = nodemailer.createTransport({
-  SES: new aws.SES({
-    apiVersion: '2010-12-01',
-    accessKeyId: process.env.IAM_USER_KEY,
-    secretAccessKey: process.env.IAM_USER_SECRET,
-    region: 'ap-southeast-1'
-  })
-})
 
 cms.registerComponents([
   {
@@ -42,6 +30,15 @@ cms.registerDataTypes([
     }
   },
 ])
+
+cms.setupEmail({
+  SES: new aws.SES({
+    apiVersion: '2010-12-01',
+    accessKeyId: process.env.IAM_USER_KEY,
+    secretAccessKey: process.env.IAM_USER_SECRET,
+    region: 'ap-southeast-1'
+  })
+})
 
 cms.run({
   name: process.env.PROJECT_NAME,
