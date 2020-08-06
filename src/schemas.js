@@ -1,3 +1,18 @@
+// fullname: router.query.fullname || '',
+//     class: router.query.class ||'',
+//     schoolName: '',
+//     stuPhoneNumber: '',
+//     stuEmail: '',
+//     parentTitle: '',
+//     parentFullname: '',
+//     parentPhoneNumber: '',
+//     parentEmail: '',
+//     addressProvince: '',
+//     addressCity: '',
+//     addressDetail: '',
+//     tutorNote: '',
+//     package: ''
+
 module.exports = [
   {
     name: "Student",
@@ -20,25 +35,24 @@ module.exports = [
         component: "dropdown",
       },
       {
-        name: "school",
+        name: "schoolName",
         type: "text",
         component: "text",
       },
       {
-        name: "phoneNumber",
+        name: "stuPhoneNumber",
         type: "text",
         component: "text",
       },
       {
-        name: "email",
+        name: "stuEmail",
         type: "text",
         component: "text",
       },
       {
         name: "parentName",
         type: "text",
-        component: "text-dropdown",
-        default: ["Ny.", "Tn.", "Ibu.", "Bpk."],
+        component: "text"
       },
       {
         name: "parentPhoneNumber",
