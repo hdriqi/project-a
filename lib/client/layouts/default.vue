@@ -29,6 +29,9 @@
                         @click="move(menu.name)"
                       ></b-menu-item>
                     </b-menu-item>
+                    <b-menu-item label="Static">
+                      <b-menu-item label="Media" @click="move('media')"></b-menu-item>
+                    </b-menu-item>
                   </b-menu-list>
                   <b-menu-list label="Actions">
                     <b-menu-item icon="logout" label="Logout"></b-menu-item>

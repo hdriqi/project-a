@@ -70,6 +70,13 @@
         :name="key"
       ></schedule>
     </div>
+    <richText
+      v-for="field in richTextComponent"
+      :key="field.name"
+      :title="field.name"
+      :placeholder="field.name"
+      :obj="richTextInputValue[field.name]"
+    ></richText>
     <b-button type="is-primary" expanded @click="submit">Submit</b-button>
   </section>
 </template>
@@ -84,12 +91,24 @@ import textInput from "../../components/Text";
 import textAreaInput from "../../components/TextArea";
 import textDropDown from "../../components/TextDropdown";
 import uploadInput from "../../components/UploadButton";
+import richText from "../../components/RichText";
 
 export default {
   async asyncData({ params }) {
     const schemas = allSchemas.filter(
       (i) => i.name.toLowerCase() === params.id
     )[0];
+
+    //Rich Component
+    const richTextInputValue = {};
+    const richTextComponent = schemas.fields.filter((i) => {
+      if (i.component.toLowerCase() === "rich-text") {
+        richTextInputValue[i.name] = {
+          value: "",
+        };
+        return i;
+      }
+    });
 
     //Text Component
     const textInputValue = {};
@@ -225,6 +244,8 @@ export default {
       scheduleMin,
       scheduleKey,
       scheduleComponentType,
+      richTextComponent,
+      richTextInputValue,
       path: params.id,
     };
   },
@@ -236,6 +257,7 @@ export default {
     textAreaInput,
     textDropDown,
     uploadInput,
+    richText,
   },
   data() {
     return {};
@@ -277,6 +299,7 @@ export default {
         this.dropdownInputValue,
         this.radioInputValue,
         this.checkboxInput,
+        this.richTextInputValue,
         // this.uploadInputValue
       ];
       const form = {};

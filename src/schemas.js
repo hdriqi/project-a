@@ -101,7 +101,7 @@ module.exports = [
         type: "array_schedule",
         component: "schedule",
         componentType: "student",
-        scheduleMin:3
+        scheduleMin: 3,
       },
       {
         name: "scheduleAdditional",
@@ -140,6 +140,11 @@ module.exports = [
         default: ["Paket 8 sesi", "Paket 24 sesi", "Paket 48 sesi"],
         component: "radio",
       },
+      {
+        name: "article",
+        type: "text",
+        component: "rich-text",
+      },
     ],
   },
   {
@@ -159,7 +164,7 @@ module.exports = [
         type: "schedule",
         component: "schedule",
         componentType: "teacher",
-        scheduleMin:4,
+        scheduleMin: 4,
         validation: (input) => {
           return [input.length > 0, "Title must be at least 1 characters"];
         },
