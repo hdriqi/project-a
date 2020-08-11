@@ -338,7 +338,7 @@ module.exports = [
       {
         name: "parentName",
         type: "text",
-        component: "text"
+        component: "text",
       },
       {
         name: "parentPhoneNumber",
@@ -448,27 +448,224 @@ module.exports = [
     ],
   },
   {
-    name: "Post",
+    name: "about-us",
+    parent: "about",
     type: "content",
+    fields: [
+      {
+        name: "intro",
+        type: "text",
+        component: "textarea",
+        validation: (input) => {
+          return [input.length > 0, "intro must be at least 1 characters"];
+        },
+      },
+      {
+        name: "vision",
+        type: "text",
+        component: "textarea",
+        componentType: "teacher",
+        scheduleMin: 4,
+        validation: (input) => {
+          return [input.length > 0, "vision must be at least 1 characters"];
+        },
+      },
+      {
+        name: "mission",
+        type: "text",
+        component: "textarea",
+        validation: (input) => {
+          return [input.length > 0, "mission must be at least 1 characters"];
+        },
+      },
+    ],
+  },
+  {
+    name: "slides",
+    parent: "Home Data",
+    type: "multiple-content",
+    fields: [
+      {
+        name: "img",
+        type: "text",
+        component: "upload",
+      },
+      {
+        name: "url",
+        type: "text",
+        component: "text",
+      },
+    ],
+  },
+  {
+    name: "why-us",
+    parent: "Home Data",
+    type: "multiple-content",
+    fields: [
+      {
+        name: "icon",
+        type: "text",
+        component: "upload",
+      },
+      {
+        name: "title",
+        type: "text",
+        component: "text",
+      },
+      {
+        name: "description",
+        type: "text",
+        component: "text",
+      },
+    ],
+  },
+  {
+    name: "methods",
+    parent: "Home Data",
+    type: "multiple-content",
+    fields: [
+      {
+        name: "name",
+        type: "text",
+        component: "text",
+      },
+      {
+        name: "img",
+        type: "text",
+        component: "upload",
+      },
+      {
+        name: "description",
+        type: "text",
+        component: "text",
+      },
+    ],
+  },
+  {
+    name: "testimonials",
+    parent: "Home Data",
+    type: "multiple-content",
+    fields: [
+      {
+        name: "name",
+        type: "text",
+        component: "text",
+      },
+      {
+        name: "img",
+        type: "text",
+        component: "upload",
+      },
+      {
+        name: "message",
+        type: "text",
+        component: "text",
+      },
+    ],
+  },
+  {
+    name: "faqs",
+    type: "multiple-content",
+    fields: [
+      {
+        name: "question",
+        type: "text",
+        component: "text",
+      },
+      {
+        name: "answer",
+        type: "text",
+        component: "text",
+      },
+    ],
+  },
+  {
+    name: "post-data",
+    type: "multiple-content",
     fields: [
       {
         name: "title",
         type: "text",
         component: "text",
-        validation: (input) => {
-          return [input.length > 0, "Title must be at least 1 characters"]
-        },
       },
       {
-        name: "schedule",
-        type: "schedule",
-        component: "schedule",
-        componentType: "teacher",
-        scheduleMin: 4,
-        validation: (input) => {
-          return [input.length > 0, "Title must be at least 1 characters"]
-        },
+        name: "img",
+        type: "text",
+        component: "upload",
       },
-    ]
+      {
+        name: "body",
+        type: "text",
+        component: "rich-text",
+      },
+    ],
   },
-]
+  {
+    name: "team",
+    parent: "about",
+    type: "multiple-content",
+    fields: [
+      {
+        name: "name",
+        type: "text",
+        component: "text",
+      },
+      {
+        name: "img",
+        type: "text",
+        component: "upload",
+      },
+      {
+        name: "position",
+        type: "text",
+        component: "text",
+      },
+      {
+        name: "quotes",
+        type: "text",
+        component: "rich-text",
+      },
+    ],
+  },
+  {
+    name: "pricing",
+    type: "multiple-content",
+    fields: [
+      {
+        name: "level",
+        type: "enum",
+        default: ["SD", "SMP", "SMA"],
+        component: "dropdown",
+      },
+      {
+        name: "class",
+        type: "enum",
+        default: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+        component: "dropdown",
+      },
+      {
+        name: "session",
+        type: "number",
+        component: "text",
+      },
+      {
+        name: "price",
+        type: "array_number",
+        component: "multiple_text",
+        componentType: "number",
+        multipleTextMin: 1,
+      },
+    ],
+  },
+  {
+    name: "test",
+    type: "content",
+    fields: [
+      {
+        name: "img",
+        type: "text",
+        component: "upload",
+      }
+    ],
+  },
+];

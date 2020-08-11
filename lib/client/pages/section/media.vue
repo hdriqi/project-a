@@ -24,9 +24,17 @@
     <div class="tile is-ancestor media">
       <div class="tile is-parent is-4" v-for="item in paginatedItems" :key="item.title">
         <div class="tile is-child box">
-          <figure class="image is-square" v-if="!loading">
+          <figure class="image is-square" v-if="!loading && item.type =='image'">
             <a @click="imageModal(item.address)">
               <img :src="item.address" :alt="item.fileName" />
+            </a>
+          </figure>
+          <figure class="image is-square" v-if="!loading && item.type =='document'">
+            <a :href="item.address">
+              <img
+                src="https://png.pngtree.com/png-vector/20190216/ourlarge/pngtree-vector-document-icon-png-image_541782.jpg"
+                :alt="item.fileName"
+              />
             </a>
           </figure>
           <b-skeleton size="is-large" :active="loading" :count="1" :height="220"></b-skeleton>
@@ -48,6 +56,14 @@ export default {
     data.data.forEach((element) => {
       element.address = `http://localhost:8000/cdn/${element.uniqueName}`;
       element.date = new Date(element.createdAt);
+      const fileFormat = element.uniqueName.slice(
+        element.uniqueName.length - 3,
+        element.uniqueName.length
+      );
+      const pictureFormat = ["png", "jpg"];
+      pictureFormat.includes(fileFormat)
+        ? (element.type = "image")
+        : (element.type = "document");
     });
     return { items: data.data, resetData: data.data };
   },

@@ -45,6 +45,8 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   data() {
     return {
@@ -73,7 +75,7 @@ export default {
       ].join("&");
 
       this.loading = true;
-      this.$http
+      axios
         .get(`https://api.themoviedb.org/3/discover/movie?${params}`)
         .then(({ data }) => {
           // api.themoviedb.org manage max 1000 pages

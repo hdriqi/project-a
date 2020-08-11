@@ -4,6 +4,7 @@
       v-for="field in textComponent"
       :key="field.name"
       :title="field.name"
+      :type="field.type"
       :placeholder="field.name"
       :obj="textInputValue[field.name]"
     ></textInput>
@@ -37,6 +38,7 @@
       :title="field.name"
       :placeholder="field.name"
       :obj="uploadInputValue[field.name]"
+      :loading="openLoading"
     ></uploadInput>
     <radio
       v-for="field in radioComponent"
@@ -70,6 +72,25 @@
         :name="key"
       ></schedule>
     </div>
+    <div v-for="key in multipleKey" :key="key">
+      <div class="input-title">
+        <p class="subtitle" style="font-size:16px;">
+          <b>{{key}}</b>
+        </p>
+      </div>
+      <multipleText
+        v-for="(input,index) in multipleTextInputValue[key]"
+        :key="index+key"
+        :index="index"
+        :placeholder="key+' '+(index+1)"
+        :obj="multipleTextInputValue[key][index]"
+        :isMin="index > multipleTextMin[key] - 1"
+        :name="key"
+        :add="addMultipleText"
+        :remove="removeMultipleText"
+        :type="multipleTextComponentType[key]"
+      ></multipleText>
+    </div>
     <richText
       v-for="field in richTextComponent"
       :key="field.name"
@@ -77,26 +98,28 @@
       :placeholder="field.name"
       :obj="richTextInputValue[field.name]"
     ></richText>
+    <b-loading :is-full-page="isFullPage" :active.sync="isLoading" :can-cancel="true"></b-loading>
     <b-button type="is-primary" expanded @click="submit">Submit</b-button>
   </section>
 </template>
 
 <script>
 import axios from "axios";
-import allSchemas, { keys } from "../../generated/generated_schemas";
-import checkbox from "../../components/CheckBox";
-import dropdown from "../../components/Dropdown";
-import radio from "../../components/Radio";
-import textInput from "../../components/Text";
-import textAreaInput from "../../components/TextArea";
-import textDropDown from "../../components/TextDropdown";
-import uploadInput from "../../components/UploadButton";
-import richText from "../../components/RichText";
+import allSchemas, { keys } from "../../../generated/generated_schemas";
+import checkbox from "../../../components/CheckBox";
+import dropdown from "../../../components/Dropdown";
+import radio from "../../../components/Radio";
+import textInput from "../../../components/Text";
+import textAreaInput from "../../../components/TextArea";
+import textDropDown from "../../../components/TextDropdown";
+import uploadInput from "../../../components/UploadButton";
+import richText from "../../../components/RichText";
+import multipleText from "../../../components/MultipleText";
 
 export default {
   async asyncData({ params }) {
     const schemas = allSchemas.filter(
-      (i) => i.name.toLowerCase() === params.id
+      (i) => i.name.toLowerCase() === params.slug
     )[0];
 
     //Rich Component
@@ -219,6 +242,27 @@ export default {
     });
     const scheduleKey = Object.keys(scheduleInputValue);
 
+    //MultipleText Component
+    const multipleTextInputValue = {};
+    const multipleTextMin = {};
+    const multipleTextComponentType = {};
+
+    const multipleTextComponent = schemas.fields.filter((i) => {
+      if (i.component.toLowerCase() === "multiple_text") {
+        multipleTextMin[i.name] = i.multipleTextMin;
+        multipleTextInputValue[i.name] = [];
+        multipleTextComponentType[i.name] = i.componentType;
+        for (let j = 0; j < i.multipleTextMin; j++) {
+          multipleTextInputValue[i.name].push({
+            value: null,
+          });
+        }
+        return i;
+      }
+    });
+
+    const multipleKey = Object.keys(multipleTextInputValue);
+
     return {
       schemas,
       textInputValue,
@@ -246,7 +290,11 @@ export default {
       scheduleComponentType,
       richTextComponent,
       richTextInputValue,
-      path: params.id,
+      multipleTextInputValue,
+      multipleTextMin,
+      multipleTextComponentType,
+      multipleKey,
+      path: params.slug,
     };
   },
   components: {
@@ -258,9 +306,13 @@ export default {
     textDropDown,
     uploadInput,
     richText,
+    multipleText,
   },
   data() {
-    return {};
+    return {
+      isLoading: false,
+      isFullPage: false,
+    };
   },
   computed: {
     checkboxInput: function () {
@@ -286,11 +338,45 @@ export default {
         },
       ]);
     },
+    addMultipleText(index, name) {
+      this.multipleTextInputValue[name].push({
+        value: null,
+      });
+    },
     removeSchedule(index, name) {
       this.scheduleInputValue[name].splice(index, 1);
     },
+    removeMultipleText(index, name) {
+      this.multipleTextInputValue[name].splice(index, 1);
+    },
     resetModel() {
       window.location.reload(true);
+    },
+    openLoading() {
+      this.isLoading = true;
+      setTimeout(() => {
+        this.isLoading = false;
+      }, 1000);
+    },
+    success() {
+      setTimeout(() => {
+        this.$buefy.notification.open({
+          message: "Data Submitted Successfully",
+          type: "is-info",
+        });
+      }, 1300);
+    },
+    danger() {
+      const notif = this.$buefy.notification.open({
+        duration: 5000,
+        message: `Failed to Submit Data`,
+        position: "is-bottom-right",
+        type: "is-danger",
+        hasIcon: true,
+      });
+      notif.$on("close", () => {
+        this.$buefy.notification.open("notification closed!");
+      });
     },
     async submit() {
       const inputValue = [
@@ -300,8 +386,9 @@ export default {
         this.radioInputValue,
         this.checkboxInput,
         this.richTextInputValue,
-        // this.uploadInputValue
+        this.uploadInputValue,
       ];
+
       const form = {};
       inputValue.forEach((inputValue) => {
         Object.keys(inputValue).forEach((key) => {
@@ -314,6 +401,14 @@ export default {
         form[key] = this.scheduleInputValue[key];
       });
 
+      // Multiple Text Data
+      Object.keys(this.multipleTextInputValue).forEach((key) => {
+        let arrayText = this.multipleTextInputValue[key].map(
+          (element) => element.value
+        );
+        form[key] = arrayText;
+      });
+
       // Dropdown Text Data
       Object.keys(this.textDropdownInputValue).forEach((key) => {
         form[key] =
@@ -323,15 +418,23 @@ export default {
               this.textDropdownInputValue[key].text.value
             : "";
       });
-      const { data } = await axios.post(
-        `http://localhost:8000/api/collections/${this.path}`,
-        form
-      );
-      if (data.data) {
+
+      console.log("ini form", form);
+
+      try {
+        const { data } = await axios.post(
+          `http://localhost:8000/api/collections/${this.path}`,
+          form
+        );
+        console.log("Data Result..", data.data);
+        this.openLoading();
+        this.success();
         setTimeout(function () {
-          console.log("success", data.data);
           window.location.reload(true);
-        }, 3000);
+        }, 1800);
+      } catch (err) {
+        console.log(err.response.data);
+        this.danger();
       }
     },
   },
