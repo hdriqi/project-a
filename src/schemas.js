@@ -483,7 +483,8 @@ module.exports = [
   {
     name: "slides",
     parent: "Home Data",
-    type: "multiple-content",
+    isMultiple: true,
+    type: "content",
     fields: [
       {
         name: "img",
@@ -500,7 +501,8 @@ module.exports = [
   {
     name: "why-us",
     parent: "Home Data",
-    type: "multiple-content",
+    isMultiple: true,
+    type: "content",
     fields: [
       {
         name: "icon",
@@ -522,7 +524,8 @@ module.exports = [
   {
     name: "methods",
     parent: "Home Data",
-    type: "multiple-content",
+    isMultiple: true,
+    type: "content",
     fields: [
       {
         name: "name",
@@ -544,7 +547,8 @@ module.exports = [
   {
     name: "testimonials",
     parent: "Home Data",
-    type: "multiple-content",
+    isMultiple: true,
+    type: "content",
     fields: [
       {
         name: "name",
@@ -565,7 +569,8 @@ module.exports = [
   },
   {
     name: "faqs",
-    type: "multiple-content",
+    isMultiple: true,
+    type: "content",
     fields: [
       {
         name: "question",
@@ -581,7 +586,8 @@ module.exports = [
   },
   {
     name: "post-data",
-    type: "multiple-content",
+    isMultiple: true,
+    type: "content",
     fields: [
       {
         name: "title",
@@ -603,7 +609,8 @@ module.exports = [
   {
     name: "team",
     parent: "about",
-    type: "multiple-content",
+    isMultiple: true,
+    type: "content",
     fields: [
       {
         name: "name",
@@ -629,7 +636,8 @@ module.exports = [
   },
   {
     name: "pricing",
-    type: "multiple-content",
+    isMultiple: true,
+    type: "content",
     fields: [
       {
         name: "level",
