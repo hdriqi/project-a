@@ -62,13 +62,7 @@ export default {
           },
         });
         this.loading();
-        let address = "";
-        Object.keys(data).forEach((key) => {
-          if (key !== "status") {
-            address = address + data[key];
-          }
-        });
-        this.obj.value = address;
+        this.obj.value = data.url;
         this.success();
       } catch (err) {
         console.log(err.response.data);
