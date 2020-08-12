@@ -28,25 +28,9 @@
                           @click="move(menu.name)"
                         ></b-menu-item>
                       </b-menu-item>
-                    </b-menu-item>
-                    <b-menu-item label="Multiple Content">
-                      <b-menu-item
-                        v-for="(menu, index) in multipleContentMenu"
-                        :key="index"
-                        :label="menu.name"
-                        @click="move(menu.name)"
-                      ></b-menu-item>
                       <b-menu-item label="Home Data">
                         <b-menu-item
-                          v-for="(menu, index) in multipleContentHomeMenu"
-                          :key="index"
-                          :label="menu.name"
-                          @click="move(menu.name)"
-                        ></b-menu-item>
-                      </b-menu-item>
-                      <b-menu-item label="About">
-                        <b-menu-item
-                          v-for="(menu, index) in multipleContentAboutMenu"
+                          v-for="(menu, index) in contentHomeMenu"
                           :key="index"
                           :label="menu.name"
                           @click="move(menu.name)"
@@ -98,24 +82,6 @@ export default {
     },
   },
   computed: {
-    multipleContentMenu: function () {
-      return this.menus.filter(
-        (i) => i.type.toLowerCase() === "multiple-content" && !i.parent
-      );
-    },
-    multipleContentHomeMenu: function () {
-      return this.menus.filter(
-        (i) =>
-          i.type.toLowerCase() === "multiple-content" &&
-          i.parent === "Home Data"
-      );
-    },
-    multipleContentAboutMenu: function () {
-      return this.menus.filter(
-        (i) =>
-          i.type.toLowerCase() === "multiple-content" && i.parent === "about"
-      );
-    },
     contentMenu: function () {
       return this.menus.filter(
         (i) => i.type.toLowerCase() === "content" && !i.parent
@@ -124,6 +90,11 @@ export default {
     contentMenuAbout: function () {
       return this.menus.filter(
         (i) => i.type.toLowerCase() === "content" && i.parent === "about"
+      );
+    },
+    contentHomeMenu: function () {
+      return this.menus.filter(
+        (i) => i.type.toLowerCase() === "content" && i.parent === "Home Data"
       );
     },
     formMenu: function () {

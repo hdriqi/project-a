@@ -418,6 +418,7 @@ module.exports = [
     name: "about-us",
     parent: "about",
     type: "content",
+    isMultiple: false,
     fields: [
       {
         name: "intro",
@@ -640,7 +641,7 @@ module.exports = [
         name: "img",
         type: "text",
         component: "upload",
-      }
+      },
     ],
   },
 ]
