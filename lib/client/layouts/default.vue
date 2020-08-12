@@ -18,22 +18,17 @@
                         v-for="(menu, index) in contentMenu"
                         :key="index"
                         :label="menu.name"
-                        @click="move(menu.name)"
-                      ></b-menu-item>
-                      <b-menu-item label="About">
+                        @click="_ => {
+                          if (!menu.child) {
+                            move(menu.name)
+                          }
+                        }"
+                      >
                         <b-menu-item
-                          v-for="(menu, index) in contentMenuAbout"
+                          v-for="(menuChild, index) in menu.child"
                           :key="index"
-                          :label="menu.name"
-                          @click="move(menu.name)"
-                        ></b-menu-item>
-                      </b-menu-item>
-                      <b-menu-item label="Home Data">
-                        <b-menu-item
-                          v-for="(menu, index) in contentHomeMenu"
-                          :key="index"
-                          :label="menu.name"
-                          @click="move(menu.name)"
+                          :label="menuChild.name"
+                          @click="move(menuChild.name)"
                         ></b-menu-item>
                       </b-menu-item>
                     </b-menu-item>
@@ -83,19 +78,25 @@ export default {
   },
   computed: {
     contentMenu: function () {
-      return this.menus.filter(
-        (i) => i.type.toLowerCase() === "content" && !i.parent
-      );
-    },
-    contentMenuAbout: function () {
-      return this.menus.filter(
-        (i) => i.type.toLowerCase() === "content" && i.parent === "about"
-      );
-    },
-    contentHomeMenu: function () {
-      return this.menus.filter(
-        (i) => i.type.toLowerCase() === "content" && i.parent === "Home Data"
-      );
+      const newMenus = [];
+      this.menus.forEach((menu) => {
+        if (menu.type.toLowerCase() === "content" && !menu.parent) {
+          newMenus.push(menu);
+        } else if (menu.parent) {
+          const idx = newMenus.findIndex(
+            (newMenu) => newMenu.name === menu.parent
+          );
+          if (idx > -1) {
+            newMenus[idx].child.push(menu);
+          } else {
+            newMenus.push({
+              name: menu.parent,
+              child: [menu],
+            });
+          }
+        }
+      });
+      return newMenus;
     },
     formMenu: function () {
       return this.menus.filter((i) => i.type.toLowerCase() === "form");
