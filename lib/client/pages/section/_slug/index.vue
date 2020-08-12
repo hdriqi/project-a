@@ -131,7 +131,8 @@ export default {
       this.loadAsyncData();
     },
     edit(value) {
-      console.log(value);
+      const route = `/section/${this.path.toLowerCase()}/edit/${value.id}`;
+      this.$router.push(route);
     },
     deleteData(value) {
       const url = `http://localhost:8000/api/collections/${this.path}/${value.id}`;

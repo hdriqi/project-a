@@ -667,14 +667,21 @@ module.exports = [
     ],
   },
   {
-    name: "test",
+    name: "test-aja",
     type: "content",
+    isMultiple: false,
     fields: [
       {
-        name: "img",
+        name: "test",
         type: "text",
-        component: "upload",
+        component: "text-dropdown",
+        default:["Mr." , "Ms."]
       },
+      // {
+      //   name: "img",
+      //   type: "text",
+      //   component: "upload",
+      // },
     ],
   },
 ];

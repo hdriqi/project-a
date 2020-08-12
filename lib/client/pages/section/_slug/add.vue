@@ -415,6 +415,7 @@ export default {
           this.textDropdownInputValue[key].dropdown.value &&
           this.textDropdownInputValue[key].text.value
             ? this.textDropdownInputValue[key].dropdown.value +
+              " " +
               this.textDropdownInputValue[key].text.value
             : "";
       });
@@ -426,12 +427,11 @@ export default {
           `http://localhost:8000/api/collections/${this.path}`,
           form
         );
+        const route = `/section/${this.path.toLowerCase()}`;
         console.log("Data Result..", data.data);
         this.openLoading();
         this.success();
-        setTimeout(function () {
-          window.location.reload(true);
-        }, 1800);
+        this.$router.push(route);
       } catch (err) {
         console.log(err.response.data);
         this.danger();

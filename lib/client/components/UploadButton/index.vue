@@ -5,7 +5,7 @@
         <b>{{title}}</b>
       </p>
     </div>
-    <div class="columns is-vcentered">
+    <div class="columns is-vcentered" v-if="!isUpload || remove">
       <div class="column is-four-fifths">
         <b-field>
           <b-upload v-model="dropFiles" multiple drag-drop expanded>
@@ -30,6 +30,18 @@
         <b-button type="is-info" @click="uploadPicture">click to upload</b-button>
       </div>
     </div>
+    <div class="columns is-vcentered" v-if="isUpload && !remove">
+      <div class="column is-one-third"></div>
+      <div class="column is-one-third">
+        <b-button type="is-danger is-small" @click="remove = true">Remove</b-button>
+        <figure class="image is-square">
+          <a @click="imageModal(obj.value)">
+            <img :src="obj.value" :alt="obj.value" />
+          </a>
+        </figure>
+      </div>
+      <div class="column is-one-third"></div>
+    </div>
   </div>
 </template>
 
@@ -38,11 +50,12 @@ import axios from "axios";
 import { keys } from "../../generated/generated_schemas";
 
 export default {
-  props: ["title", "placeholder", "obj", "loading"],
+  props: ["title", "placeholder", "obj", "loading", "isUpload"],
   data() {
     return {
       file: {},
       dropFiles: [],
+      remove: false,
     };
   },
   methods: {

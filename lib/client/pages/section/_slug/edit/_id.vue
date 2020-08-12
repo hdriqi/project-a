@@ -39,6 +39,7 @@
       :placeholder="field.name"
       :obj="uploadInputValue[field.name]"
       :loading="openLoading"
+      :isUpload="uploadInputValue[field.name].value !== null"
     ></uploadInput>
     <radio
       v-for="field in radioComponent"
@@ -122,13 +123,32 @@ export default {
       (i) => i.name.toLowerCase() === params.slug
     )[0];
 
+    const url = `http://localhost:8000/api/collections/${params.slug}?_id=${params.id}`;
+    let oneData;
+    let listKeysData;
+    try {
+      const { data } = await axios.get(url);
+      oneData = data.data[0];
+      listKeysData = oneData.input;
+      console.log("ini one data", oneData);
+      console.log("ini keys data", listKeysData);
+    } catch (error) {
+      throw error;
+    }
+
     //Rich Component
     const richTextInputValue = {};
     const richTextComponent = schemas.fields.filter((i) => {
       if (i.component.toLowerCase() === "rich-text") {
-        richTextInputValue[i.name] = {
-          value: "",
-        };
+        if (listKeysData[i.name]) {
+          richTextInputValue[i.name] = {
+            value: listKeysData[i.name],
+          };
+        } else {
+          richTextInputValue[i.name] = {
+            value: "",
+          };
+        }
         return i;
       }
     });
@@ -137,9 +157,15 @@ export default {
     const textInputValue = {};
     const textComponent = schemas.fields.filter((i) => {
       if (i.component.toLowerCase() === "text") {
-        textInputValue[i.name] = {
-          value: null,
-        };
+        if (listKeysData[i.name]) {
+          textInputValue[i.name] = {
+            value: listKeysData[i.name],
+          };
+        } else {
+          textInputValue[i.name] = {
+            value: null,
+          };
+        }
         return i;
       }
     });
@@ -148,9 +174,15 @@ export default {
     const textAreaInputValue = {};
     const textAreaComponent = schemas.fields.filter((i) => {
       if (i.component.toLowerCase() === "textarea") {
-        textAreaInputValue[i.name] = {
-          value: null,
-        };
+        if (listKeysData[i.name]) {
+          textAreaInputValue[i.name] = {
+            value: listKeysData[i.name],
+          };
+        } else {
+          textAreaInputValue[i.name] = {
+            value: null,
+          };
+        }
         return i;
       }
     });
@@ -160,9 +192,15 @@ export default {
     const dropdownDefault = {};
     const dropdownComponent = schemas.fields.filter((i) => {
       if (i.component.toLowerCase() === "dropdown") {
-        dropdownInputValue[i.name] = {
-          value: null,
-        };
+        if (listKeysData[i.name]) {
+          dropdownInputValue[i.name] = {
+            value: listKeysData[i.name],
+          };
+        } else {
+          dropdownInputValue[i.name] = {
+            value: null,
+          };
+        }
         dropdownDefault[i.name] = i.default;
         return i;
       }
@@ -173,10 +211,18 @@ export default {
     const textDropdownDefault = {};
     const textDropdownComponent = schemas.fields.filter((i) => {
       if (i.component.toLowerCase() === "text-dropdown") {
-        textDropdownInputValue[i.name] = {
-          text: { value: null },
-          dropdown: { value: null },
-        };
+        if (listKeysData[i.name]) {
+          const splitData = listKeysData[i.name].split(" ");
+          textDropdownInputValue[i.name] = {
+            text: { value: splitData[1] },
+            dropdown: { value: splitData[0] },
+          };
+        } else {
+          textDropdownInputValue[i.name] = {
+            text: { value: null },
+            dropdown: { value: null },
+          };
+        }
         textDropdownDefault[i.name] = i.default;
         return i;
       }
@@ -186,9 +232,15 @@ export default {
     const uploadInputValue = {};
     const uploadComponent = schemas.fields.filter((i) => {
       if (i.component.toLowerCase() === "upload") {
-        uploadInputValue[i.name] = {
-          value: null,
-        };
+        if (listKeysData[i.name]) {
+          uploadInputValue[i.name] = {
+            value: listKeysData[i.name],
+          };
+        } else {
+          uploadInputValue[i.name] = {
+            value: null,
+          };
+        }
         return i;
       }
     });
@@ -198,9 +250,15 @@ export default {
     const radioDefault = {};
     const radioComponent = schemas.fields.filter((i) => {
       if (i.component.toLowerCase() === "radio") {
-        radioInputValue[i.name] = {
-          value: null,
-        };
+        if (listKeysData[i.name]) {
+          radioInputValue[i.name] = {
+            value: listKeysData[i.name],
+          };
+        } else {
+          radioInputValue[i.name] = {
+            value: null,
+          };
+        }
         radioDefault[i.name] = i.default;
         return i;
       }
@@ -211,7 +269,11 @@ export default {
     const checkboxDefault = {};
     const checkboxComponent = schemas.fields.filter((i) => {
       if (i.component.toLowerCase() === "checkbox") {
-        checkboxInputValue[i.name] = [];
+        if (listKeysData[i.name]) {
+          checkboxInputValue[i.name] = listKeysData[i.name];
+        } else {
+          checkboxInputValue[i.name] = [];
+        }
         checkboxDefault[i.name] = i.default;
         return i;
       }
@@ -226,15 +288,21 @@ export default {
         scheduleMin[i.name] = i.scheduleMin;
         scheduleInputValue[i.name] = [];
         scheduleComponentType[i.name] = i.componentType;
-        for (let j = 0; j < i.scheduleMin; j++) {
-          scheduleInputValue[i.name].push([
-            {
-              day: null,
-            },
-            {
-              hour: null,
-            },
-          ]);
+        if (listKeysData[i.name]) {
+          for (let j = 0; j < listKeysData[i.name].length; j++) {
+            scheduleInputValue[i.name].push(listKeysData[i.name][j]);
+          }
+        } else {
+          for (let j = 0; j < i.scheduleMin; j++) {
+            scheduleInputValue[i.name].push([
+              {
+                day: null,
+              },
+              {
+                hour: null,
+              },
+            ]);
+          }
         }
 
         return i;
@@ -252,10 +320,18 @@ export default {
         multipleTextMin[i.name] = i.multipleTextMin;
         multipleTextInputValue[i.name] = [];
         multipleTextComponentType[i.name] = i.componentType;
-        for (let j = 0; j < i.multipleTextMin; j++) {
-          multipleTextInputValue[i.name].push({
-            value: null,
-          });
+        if (listKeysData[i.name]) {
+          for (let j = 0; j < listKeysData[i.name].length; j++) {
+            multipleTextInputValue[i.name].push({
+              value: listKeysData[i.name][j],
+            });
+          }
+        } else {
+          for (let j = 0; j < i.multipleTextMin; j++) {
+            multipleTextInputValue[i.name].push({
+              value: null,
+            });
+          }
         }
         return i;
       }
@@ -295,6 +371,8 @@ export default {
       multipleTextComponentType,
       multipleKey,
       path: params.slug,
+      id: params.id,
+      data: oneData,
     };
   },
   components: {
@@ -415,23 +493,21 @@ export default {
           this.textDropdownInputValue[key].dropdown.value &&
           this.textDropdownInputValue[key].text.value
             ? this.textDropdownInputValue[key].dropdown.value +
+              " " +
               this.textDropdownInputValue[key].text.value
             : "";
       });
 
-      console.log("ini form", form);
-
       try {
-        const { data } = await axios.post(
-          `http://localhost:8000/api/collections/${this.path}`,
+        const { data } = await axios.put(
+          `http://localhost:8000/api/collections/${this.path}/${this.id}`,
           form
         );
+        const route = `/section/${this.path.toLowerCase()}`;
         console.log("Data Result..", data.data);
         this.openLoading();
         this.success();
-        setTimeout(function () {
-          window.location.reload(true);
-        }, 1800);
+        this.$router.push(route);
       } catch (err) {
         console.log(err.response.data);
         this.danger();
