@@ -310,9 +310,11 @@ module.exports = [
         component: "text",
       },
       {
-        name: "additionalStudentFullname",
+        name: "additionalStudents",
         type: "array_text",
-        component: "text",
+        component: "multiple_text",
+        componentType: "text",
+        multipleTextMin: 0
       },
       {
         name: "class",
@@ -336,6 +338,11 @@ module.exports = [
         component: "text",
       },
       {
+        name: "parentTitle",
+        type: "text",
+        component: "text",
+      },
+      {
         name: "parentName",
         type: "text",
         component: "text",
@@ -350,8 +357,6 @@ module.exports = [
         type: "text",
         component: "text",
       },
-      /*
-      Custom ProvinceCityAddress
       {
         name: "addressProvince",
         type: "text",
@@ -374,77 +379,41 @@ module.exports = [
           "Jawa Barat": ["Bekasi", "Bogor", "Depok"],
         },
       },
-      */
       {
-        name: "addressStreet",
-        type: "text",
-        component: "text",
-      },
-      {
-        name: "addressUrban",
-        type: "text",
-        component: "text",
-      },
-      {
-        name: "addressSubDistrict",
+        name: "addressDetail",
         type: "text",
         component: "text",
       },
       {
         name: "subjects",
-        type: "array_text",
-        default: ["Matematika", "Fisika", "Kimia", "Biologi"],
+        type: "checkbox",
+        default: ["Matematika SMA", "Fisika SMA", "Kimia SMA", "Biologi SMA"],
         component: "checkbox",
       },
       {
-        name: "schedule",
+        name: "schedules",
         type: "array_schedule",
         component: "schedule",
         componentType: "student",
         scheduleMin: 3,
       },
       {
-        name: "scheduleAdditional",
+        name: "tutorNote",
         type: "text",
         component: "text",
       },
       {
         name: "teacher",
-        type: "array_text",
+        type: "checkbox",
         default: ["Laki-laki", "Wanita"],
         component: "checkbox",
       },
       {
-        name: "studentNotes",
-        type: "text",
-        component: "textarea",
-      },
-      /*
-      Custom Group
-      {
-        name: "group",
-        type: "choice",
-        default: ["Ya", "Tidak"],
-        component: "radio",
-      },
-      {
-        name: "groupNumber",
-        type: "enum",
-        component: "dropdown",
-        default: [1, 2, 3, 4, 5, 6],
-      },
-      */
-      {
-        name: "studentTotalName",
+        name: "package",
         type: "enum",
         default: ["Paket 8 sesi", "Paket 24 sesi", "Paket 48 sesi"],
         component: "radio",
-      },
-      {
-        name: "article",
-        type: "text",
-        component: "rich-text",
-      },
+      }
     ],
   },
   {
@@ -458,7 +427,7 @@ module.exports = [
         type: "text",
         component: "textarea",
         validation: (input) => {
-          return [input.length > 0, "intro must be at least 1 characters"];
+          return [input.length > 0, "intro must be at least 1 characters"]
         },
       },
       {
@@ -468,7 +437,7 @@ module.exports = [
         componentType: "teacher",
         scheduleMin: 4,
         validation: (input) => {
-          return [input.length > 0, "vision must be at least 1 characters"];
+          return [input.length > 0, "vision must be at least 1 characters"]
         },
       },
       {
@@ -476,7 +445,7 @@ module.exports = [
         type: "text",
         component: "textarea",
         validation: (input) => {
-          return [input.length > 0, "mission must be at least 1 characters"];
+          return [input.length > 0, "mission must be at least 1 characters"]
         },
       },
     ],
@@ -684,4 +653,4 @@ module.exports = [
       // },
     ],
   },
-];
+]

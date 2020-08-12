@@ -1,5 +1,7 @@
 <template>
-  <div class="checkbox-input">
+  <div class="checkbox-input" :style="{
+    order: order
+  }">
     <div class="field">
       <div class="input-title">
         <p class="subtitle" style="font-size:16px;">
@@ -18,7 +20,7 @@
 
 <script>
 export default {
-  props: ["data", "arr", "title"],
+  props: ["data", "arr", "title", "order"],
 };
 </script>
 

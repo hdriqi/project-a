@@ -1,5 +1,7 @@
 <template>
-  <div class="text-input">
+  <div class="text-input" :style="{
+    order: order
+  }">
     <b-field :label="title">
       <b-input v-model="obj.value" :placeholder="placeholder" :type="type"></b-input>
     </b-field>
@@ -8,7 +10,7 @@
 
 <script>
 export default {
-  props: ["obj", "title", "placeholder", "type"],
+  props: ["obj", "title", "placeholder", "type", "order"],
 };
 </script>
 

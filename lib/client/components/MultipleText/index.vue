@@ -1,5 +1,7 @@
 <template>
-  <div class="columns text-input">
+  <div class="columns text-input" :style="{
+    order: order
+  }">
     <div class="column">
       <b-field>
         <b-input v-model="obj.value" :placeholder="placeholder" :type="type"></b-input>
@@ -40,6 +42,7 @@ export default {
     "name",
     "placeholder",
     "type",
+    "order"
   ],
 };
 </script>

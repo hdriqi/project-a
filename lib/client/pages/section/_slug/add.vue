@@ -1,106 +1,121 @@
 <template>
-  <section>
-    <textInput
-      v-for="field in textComponent"
-      :key="field.name"
-      :title="field.name"
-      :type="field.type"
-      :placeholder="field.name"
-      :obj="textInputValue[field.name]"
-    ></textInput>
-    <textAreaInput
-      v-for="field in textAreaComponent"
-      :key="field.name"
-      :title="field.name"
-      :placeholder="field.name"
-      :obj="textAreaInputValue[field.name]"
-    ></textAreaInput>
-    <dropdown
-      v-for="field in dropdownComponent"
-      :key="field.name"
-      :title="field.name"
-      :placeholder="field.name"
-      :obj="dropdownInputValue[field.name]"
-      :data="dropdownDefault[field.name]"
-    ></dropdown>
-    <textDropDown
-      v-for="field in textDropdownComponent"
-      :key="field.name"
-      :title="field.name"
-      :placeholder="field.name"
-      :obj="textDropdownInputValue[field.name].text"
-      :arr="textDropdownInputValue[field.name].dropdown"
-      :data="textDropdownDefault[field.name]"
-    ></textDropDown>
-    <uploadInput
-      v-for="field in uploadComponent"
-      :key="field.name"
-      :title="field.name"
-      :placeholder="field.name"
-      :obj="uploadInputValue[field.name]"
-      :loading="openLoading"
-    ></uploadInput>
-    <radio
-      v-for="field in radioComponent"
-      :key="field.name"
-      :title="field.name"
-      :data="radioDefault[field.name]"
-      :obj="radioInputValue[field.name]"
-    ></radio>
-    <checkbox
-      v-for="field in checkboxComponent"
-      :key="field.name"
-      :title="field.name"
-      :data="checkboxDefault[field.name]"
-      :arr="checkboxInputValue[field.name]"
-    ></checkbox>
-    <div v-for="key in scheduleKey" :key="key">
-      <div class="input-title">
-        <p class="subtitle" style="font-size:16px;">
-          <b>{{key}}</b>
-        </p>
+  <div>
+    <section style="display: flex; flex-direction: column;">
+      <textInput
+        v-for="field in textComponent"
+        :key="field.name"
+        :title="field.name"
+        :type="field.type"
+        :placeholder="field.name"
+        :obj="textInputValue[field.name]"
+        :order="field.order"
+      ></textInput>
+      <textAreaInput
+        v-for="field in textAreaComponent"
+        :key="field.name"
+        :title="field.name"
+        :placeholder="field.name"
+        :obj="textAreaInputValue[field.name]"
+        :order="field.order"
+      ></textAreaInput>
+      <dropdown
+        v-for="field in dropdownComponent"
+        :key="field.name"
+        :title="field.name"
+        :placeholder="field.name"
+        :obj="dropdownInputValue[field.name]"
+        :data="dropdownDefault[field.name]"
+        :order="field.order"
+      ></dropdown>
+      <textDropDown
+        v-for="field in textDropdownComponent"
+        :key="field.name"
+        :title="field.name"
+        :placeholder="field.name"
+        :obj="textDropdownInputValue[field.name].text"
+        :arr="textDropdownInputValue[field.name].dropdown"
+        :data="textDropdownDefault[field.name]"
+        :order="field.order"
+      ></textDropDown>
+      <uploadInput
+        v-for="field in uploadComponent"
+        :key="field.name"
+        :title="field.name"
+        :placeholder="field.name"
+        :obj="uploadInputValue[field.name]"
+        :loading="openLoading"
+        :order="field.order"
+      ></uploadInput>
+      <radio
+        v-for="field in radioComponent"
+        :key="field.name"
+        :title="field.name"
+        :order="field.order"
+        :data="radioDefault[field.name]"
+        :obj="radioInputValue[field.name]"
+      ></radio>
+      <checkbox
+        v-for="field in checkboxComponent"
+        :key="field.name"
+        :title="field.name"
+        :order="field.order"
+        :data="checkboxDefault[field.name]"
+        :arr="checkboxInputValue[field.name]"
+      ></checkbox>
+      <div v-for="key in scheduleKey" :key="key" :style="{
+        order: scheduleComponentOrder[key]
+      }">
+        <div class="input-title">
+          <p class="subtitle" style="font-size:16px;">
+            <b>{{key}}</b>
+          </p>
+        </div>
+        <schedule
+          v-for="(input,index) in scheduleInputValue[key]"
+          :userType="scheduleComponentType[key]"
+          :key="index+key"
+          :isMin="index > scheduleMin[key] - 1"
+          :add="addSchedule"
+          :remove="removeSchedule"
+          :index="index"
+          :obj="scheduleInputValue[key][index]"
+          :name="key"
+          :order="scheduleComponentOrder[key]"
+        ></schedule>
       </div>
-      <schedule
-        :userType="scheduleComponentType[key]"
-        v-for="(input,index) in scheduleInputValue[key]"
-        :key="index+key"
-        :isMin="index > scheduleMin[key] - 1"
-        :add="addSchedule"
-        :remove="removeSchedule"
-        :index="index"
-        :obj="scheduleInputValue[key][index]"
-        :name="key"
-      ></schedule>
-    </div>
-    <div v-for="key in multipleKey" :key="key">
-      <div class="input-title">
-        <p class="subtitle" style="font-size:16px;">
-          <b>{{key}}</b>
-        </p>
+      <div v-for="key in multipleKey" :key="key" :style="{
+        order: multipleTextComponentOrder[key]
+      }">
+        <div class="input-title">
+          <p class="subtitle" style="font-size:16px;">
+            <b>{{key}}</b>
+          </p>
+        </div>
+        <multipleText
+          v-for="(input,index) in multipleTextInputValue[key]"
+          :key="index+key"
+          :index="index"
+          :placeholder="key+' '+(index+1)"
+          :obj="multipleTextInputValue[key][index]"
+          :isMin="index > multipleTextMin[key] - 1"
+          :name="key"
+          :add="addMultipleText"
+          :remove="removeMultipleText"
+          :type="multipleTextComponentType[key]"
+        ></multipleText>
       </div>
-      <multipleText
-        v-for="(input,index) in multipleTextInputValue[key]"
-        :key="index+key"
-        :index="index"
-        :placeholder="key+' '+(index+1)"
-        :obj="multipleTextInputValue[key][index]"
-        :isMin="index > multipleTextMin[key] - 1"
-        :name="key"
-        :add="addMultipleText"
-        :remove="removeMultipleText"
-        :type="multipleTextComponentType[key]"
-      ></multipleText>
-    </div>
-    <richText
-      v-for="field in richTextComponent"
-      :key="field.name"
-      :title="field.name"
-      :placeholder="field.name"
-      :obj="richTextInputValue[field.name]"
-    ></richText>
+      <richText
+        v-for="field in richTextComponent"
+        :key="field.name"
+        :title="field.name"
+        :placeholder="field.name"
+        :obj="richTextInputValue[field.name]"
+        :order="field.order"
+      ></richText>
+    </section>
     <b-loading :is-full-page="isFullPage" :active.sync="isLoading" :can-cancel="true"></b-loading>
     <b-button type="is-primary" expanded @click="submit">Submit</b-button>
-  </section>
+  </div>
 </template>
 
 <script>
@@ -122,6 +137,12 @@ export default {
       (i) => i.name.toLowerCase() === params.slug
     )[0];
 
+    const fields = schemas.fields.map((field, idx) => {
+      field.order = idx;
+      return field;
+    });
+    schemas.fields = fields;
+
     //Rich Component
     const richTextInputValue = {};
     const richTextComponent = schemas.fields.filter((i) => {
@@ -129,6 +150,7 @@ export default {
         richTextInputValue[i.name] = {
           value: "",
         };
+
         return i;
       }
     });
@@ -221,11 +243,13 @@ export default {
     const scheduleInputValue = {};
     const scheduleMin = {};
     const scheduleComponentType = {};
+    const scheduleComponentOrder = {};
     const scheduleComponent = schemas.fields.filter((i) => {
       if (i.component.toLowerCase() === "schedule") {
         scheduleMin[i.name] = i.scheduleMin;
         scheduleInputValue[i.name] = [];
         scheduleComponentType[i.name] = i.componentType;
+        scheduleComponentOrder[i.name] = i.order;
         for (let j = 0; j < i.scheduleMin; j++) {
           scheduleInputValue[i.name].push([
             {
@@ -246,12 +270,14 @@ export default {
     const multipleTextInputValue = {};
     const multipleTextMin = {};
     const multipleTextComponentType = {};
+    const multipleTextComponentOrder = {}
 
     const multipleTextComponent = schemas.fields.filter((i) => {
       if (i.component.toLowerCase() === "multiple_text") {
         multipleTextMin[i.name] = i.multipleTextMin;
         multipleTextInputValue[i.name] = [];
         multipleTextComponentType[i.name] = i.componentType;
+        multipleTextComponentOrder[i.name] = i.order;
         for (let j = 0; j < i.multipleTextMin; j++) {
           multipleTextInputValue[i.name].push({
             value: null,
@@ -284,6 +310,7 @@ export default {
       checkboxInputValue,
       checkboxDefault,
       scheduleComponent,
+      scheduleComponentOrder,
       scheduleInputValue,
       scheduleMin,
       scheduleKey,
@@ -293,6 +320,7 @@ export default {
       multipleTextInputValue,
       multipleTextMin,
       multipleTextComponentType,
+      multipleTextComponentOrder,
       multipleKey,
       path: params.slug,
     };

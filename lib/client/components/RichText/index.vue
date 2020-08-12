@@ -1,6 +1,8 @@
 <template>
   <client-only>
-    <section class="richtext-input">
+    <section class="richtext-input" :style="{
+      order: order
+    }">
       <div class="input-title">
         <p class="subtitle" style="font-size:16px;">
           <b>{{title}}</b>
@@ -20,7 +22,7 @@
 <script>
 export default {
   name: "quill",
-  props: ["obj", "title", "placeholder"],
+  props: ["obj", "title", "placeholder", "order"],
   data() {
     return {
       content: "",

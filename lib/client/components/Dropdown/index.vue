@@ -1,5 +1,7 @@
 <template>
-  <div class="dropdown-input">
+  <div class="dropdown-input" :style="{
+    order: order
+  }">
     <b-field :label="title">
       <b-select :placeholder="placeholder" v-model="obj.value">
         <option v-for="option in data" :value="option" :key="option">{{ option }}</option>
@@ -10,7 +12,7 @@
 
 <script>
 export default {
-  props: ["data", "title", "placeholder", "obj"],
+  props: ["data", "title", "placeholder", "obj", "order"],
 };
 </script>
 
