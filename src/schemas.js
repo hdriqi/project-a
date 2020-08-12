@@ -312,7 +312,9 @@ module.exports = [
       {
         name: "additionalStudents",
         type: "array_text",
-        component: "text",
+        component: "multiple_text",
+        componentType: "text",
+        multipleTextMin: 0
       },
       {
         name: "class",
@@ -384,7 +386,7 @@ module.exports = [
       },
       {
         name: "subjects",
-        type: "array_text",
+        type: "checkbox",
         default: ["Matematika SMA", "Fisika SMA", "Kimia SMA", "Biologi SMA"],
         component: "checkbox",
       },
@@ -402,7 +404,7 @@ module.exports = [
       },
       {
         name: "teacher",
-        type: "array_text",
+        type: "checkbox",
         default: ["Laki-laki", "Wanita"],
         component: "checkbox",
       },

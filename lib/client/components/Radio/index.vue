@@ -1,5 +1,7 @@
 <template>
-  <div class="radio-input">
+  <div class="radio-input" :style="{
+    order: order
+  }">
     <div class="field">
       <div class="input-title">
         <p class="subtitle" style="font-size:16px;">
@@ -18,7 +20,7 @@
 
 <script>
 export default {
-  props: ["data", "obj", "title"],
+  props: ["data", "obj", "title", "order"],
 };
 </script>
 

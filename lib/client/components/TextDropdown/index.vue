@@ -1,5 +1,7 @@
 <template>
-  <div class="text-dropdown">
+  <div class="text-dropdown" :style="{
+    order: order
+  }">
     <div class="input-title">
       <p class="subtitle" style="font-size:16px;">
         <b>{{title}}</b>
@@ -24,7 +26,7 @@
 
 <script>
 export default {
-  props: ["obj", "title", "placeholder", "data", "arr"],
+  props: ["obj", "title", "placeholder", "data", "arr", "order"],
 };
 </script>
 

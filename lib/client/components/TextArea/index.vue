@@ -1,5 +1,7 @@
 <template>
-  <div class="text-area-input">
+  <div class="text-area-input" :style="{
+    order: order
+  }">
     <b-field :label="title">
       <b-input v-model="obj.value" :placeholder="placeholder" type="textarea"></b-input>
     </b-field>
@@ -8,7 +10,7 @@
 
 <script>
 export default {
-  props: ["obj", "title", "placeholder"],
+  props: ["obj", "title", "placeholder", "order"],
 };
 </script>
 

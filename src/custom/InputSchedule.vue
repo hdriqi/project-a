@@ -1,5 +1,7 @@
 <template>
-  <div class="schedule-dropdown">
+  <div class="schedule-dropdown" :style="{
+    order: order
+  }">
     <div v-if="index == 0">
       <div class="columns">
         <div class="column">
@@ -73,6 +75,7 @@ export default {
     "index",
     "isMin",
     "name",
+    "order"
   ],
   computed: {
     title: function () {

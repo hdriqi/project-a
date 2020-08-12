@@ -1,5 +1,7 @@
 <template>
-  <div class="upload-input">
+  <div class="upload-input" :style="{
+    order: order
+  }">
     <div class="input-title">
       <p class="subtitle" style="font-size:16px;">
         <b>{{title}}</b>
@@ -38,7 +40,7 @@ import axios from "axios";
 import { keys } from "../../generated/generated_schemas";
 
 export default {
-  props: ["title", "placeholder", "obj", "loading"],
+  props: ["title", "placeholder", "obj", "loading", "order"],
   data() {
     return {
       file: {},
