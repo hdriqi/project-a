@@ -8,7 +8,16 @@
       </p>
     </div>
     <div class="columns is-vcentered" v-if="!isUpload || remove">
-      <div class="column is-four-fifths">
+      <div class="column is-one-third"></div>
+      <div class="column is-one-third">
+        <b-button type="is-info is-small" @click="uploadPicture">upload</b-button>
+        <b-button
+          v-if="isUpload"
+          type="is-small"
+          @click="remove = false"
+          style="float:right; position: relative;  z-index: 99;"
+          icon="close"
+        >cancel</b-button>
         <b-field>
           <b-upload v-model="dropFiles" multiple drag-drop expanded>
             <section class="section">
@@ -28,18 +37,19 @@
           </span>
         </div>
       </div>
-      <div class="column">
-        <b-button type="is-info" @click="uploadPicture">click to upload</b-button>
-      </div>
+      <div class="column is-one-third"></div>
     </div>
     <div class="columns is-vcentered" v-if="isUpload && !remove">
       <div class="column is-one-third"></div>
       <div class="column is-one-third">
-        <b-button type="is-danger is-small" @click="remove = true">Remove</b-button>
-        <figure class="image is-square">
-          <a @click="imageModal(obj.value)">
-            <img :src="obj.value" :alt="obj.value" />
-          </a>
+        <b-button
+          type="is-danger is-small"
+          @click="remove = true"
+          style="float:right; position: relative;  z-index: 99;"
+          icon="close"
+        >X</b-button>
+        <figure class="image is-256x256">
+          <img :src="obj.value" :alt="obj.value" />
         </figure>
       </div>
       <div class="column is-one-third"></div>

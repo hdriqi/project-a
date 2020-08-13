@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div v-if="isLoading"  class="w-full h-screen flex items-center">
+    <div v-if="isLoading" class="w-full h-screen flex items-center">
       <div class="m-auto max-w-md w-full">
         <h3 class="text-4xl font-bold text-center">Loading...</h3>
       </div>
@@ -156,7 +156,7 @@ export default {
     }
     setTimeout(() => {
       this.isLoading = false;
-    }, 500)
+    }, 500);
   },
 };
 </script>

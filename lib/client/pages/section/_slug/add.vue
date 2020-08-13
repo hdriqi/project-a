@@ -1,5 +1,6 @@
 <template>
   <div>
+    {{scheduleInputValue}}
     <section style="display: flex; flex-direction: column;">
       <textInput
         v-for="field in textComponent"
@@ -62,9 +63,13 @@
         :data="checkboxDefault[field.name]"
         :arr="checkboxInputValue[field.name]"
       ></checkbox>
-      <div v-for="key in scheduleKey" :key="key" :style="{
+      <div
+        v-for="key in scheduleKey"
+        :key="key"
+        :style="{
         order: scheduleComponentOrder[key]
-      }">
+      }"
+      >
         <div class="input-title">
           <p class="subtitle" style="font-size:16px;">
             <b>{{key}}</b>
@@ -83,9 +88,13 @@
           :order="scheduleComponentOrder[key]"
         ></schedule>
       </div>
-      <div v-for="key in multipleKey" :key="key" :style="{
+      <div
+        v-for="key in multipleKey"
+        :key="key"
+        :style="{
         order: multipleTextComponentOrder[key]
-      }">
+      }"
+      >
         <div class="input-title">
           <p class="subtitle" style="font-size:16px;">
             <b>{{key}}</b>
@@ -270,7 +279,7 @@ export default {
     const multipleTextInputValue = {};
     const multipleTextMin = {};
     const multipleTextComponentType = {};
-    const multipleTextComponentOrder = {}
+    const multipleTextComponentOrder = {};
 
     const multipleTextComponent = schemas.fields.filter((i) => {
       if (i.component.toLowerCase() === "multiple_text") {

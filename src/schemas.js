@@ -314,7 +314,7 @@ module.exports = [
         type: "array_text",
         component: "multiple_text",
         componentType: "text",
-        multipleTextMin: 0
+        multipleTextMin: 0,
       },
       {
         name: "class",
@@ -413,7 +413,7 @@ module.exports = [
         type: "enum",
         default: ["Paket 8 sesi", "Paket 24 sesi", "Paket 48 sesi"],
         component: "radio",
-      }
+      },
     ],
   },
   {
@@ -427,7 +427,7 @@ module.exports = [
         type: "text",
         component: "textarea",
         validation: (input) => {
-          return [input.length > 0, "intro must be at least 1 characters"]
+          return [input.length > 0, "intro must be at least 1 characters"];
         },
       },
       {
@@ -437,7 +437,7 @@ module.exports = [
         componentType: "teacher",
         scheduleMin: 4,
         validation: (input) => {
-          return [input.length > 0, "vision must be at least 1 characters"]
+          return [input.length > 0, "vision must be at least 1 characters"];
         },
       },
       {
@@ -445,7 +445,7 @@ module.exports = [
         type: "text",
         component: "textarea",
         validation: (input) => {
-          return [input.length > 0, "mission must be at least 1 characters"]
+          return [input.length > 0, "mission must be at least 1 characters"];
         },
       },
     ],
@@ -641,16 +641,18 @@ module.exports = [
     isMultiple: false,
     fields: [
       {
-        name: "test",
-        type: "text",
-        component: "text-dropdown",
-        default:["Mr." , "Ms."]
+        name: "subjects",
+        type: "checkbox",
+        default: ["Matematika SMA", "Fisika SMA", "Kimia SMA", "Biologi SMA"],
+        component: "checkbox",
       },
-      // {
-      //   name: "img",
-      //   type: "text",
-      //   component: "upload",
-      // },
+      {
+        name: "schedules",
+        type: "array_schedule",
+        component: "schedule",
+        componentType: "student",
+        scheduleMin: 3,
+      },
     ],
   },
-]
+];

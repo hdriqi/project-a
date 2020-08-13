@@ -71,6 +71,7 @@
         :index="index"
         :obj="scheduleInputValue[key][index]"
         :name="key"
+        :isSchedule="scheduleInputValue[key][index].value !== null"
       ></schedule>
     </div>
     <div v-for="key in multipleKey" :key="key">
@@ -129,9 +130,7 @@ export default {
     try {
       const { data } = await axios.get(url);
       oneData = data.data[0];
-      listKeysData = oneData.input;
-      console.log("ini one data", oneData);
-      console.log("ini keys data", listKeysData);
+      listKeysData = oneData;
     } catch (error) {
       throw error;
     }
@@ -504,12 +503,10 @@ export default {
           form
         );
         const route = `/section/${this.path.toLowerCase()}`;
-        console.log("Data Result..", data.data);
         this.openLoading();
         this.success();
         this.$router.push(route);
       } catch (err) {
-        console.log(err.response.data);
         this.danger();
       }
     },

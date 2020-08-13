@@ -75,7 +75,8 @@ export default {
     "index",
     "isMin",
     "name",
-    "order"
+    "order",
+    "isSchedule",
   ],
   computed: {
     title: function () {
@@ -89,7 +90,11 @@ export default {
   watch: {
     inputDay: function (val) {
       this.obj[0].day = val;
-      this.inputHour = null;
+      if (!this.isSchedule) {
+        this.inputHour = null;
+      } else {
+        this.isSchedule = !this.isSchedule;
+      }
       this.timeData = this.userType
         ? this.userType == "student"
           ? this.student_time_data[val]
@@ -528,6 +533,12 @@ export default {
         ],
       },
     };
+  },
+  mounted() {
+    if (this.isSchedule) {
+      this.inputDay = this.obj[0].day;
+      this.inputHour = this.obj[1].hour;
+    }
   },
 };
 </script>

@@ -106,10 +106,9 @@ export default {
           }
           this.total = currentTotal;
           data.data.forEach((item) => {
-            const { input } = item;
-            input.id = item._id;
-            input.date = item.createdAt;
-            this.data.push(input);
+            item.id = item._id;
+            item.date = item.createdAt;
+            this.data.push(item);
           });
           console.log(this.data);
           this.loading = false;
