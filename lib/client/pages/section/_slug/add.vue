@@ -1,6 +1,5 @@
 <template>
   <div>
-    {{scheduleInputValue}}
     <section style="display: flex; flex-direction: column;">
       <textInput
         v-for="field in textComponent"
@@ -332,6 +331,7 @@ export default {
       multipleTextComponentOrder,
       multipleKey,
       path: params.slug,
+      isMultiple: schemas.isMultiple,
     };
   },
   components: {
@@ -468,7 +468,11 @@ export default {
         console.log("Data Result..", data.data);
         this.openLoading();
         this.success();
-        this.$router.push(route);
+        if (!this.isMultiple) {
+          this.$router.push(`/`);
+        } else {
+          this.$router.push(route);
+        }
       } catch (err) {
         console.log(err.response.data);
         this.danger();

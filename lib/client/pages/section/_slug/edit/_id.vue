@@ -372,6 +372,7 @@ export default {
       path: params.slug,
       id: params.id,
       data: oneData,
+      isMultiple: schemas.isMultiple,
     };
   },
   components: {
@@ -505,7 +506,11 @@ export default {
         const route = `/section/${this.path.toLowerCase()}`;
         this.openLoading();
         this.success();
-        this.$router.push(route);
+        if (!this.isMultiple) {
+          this.$router.push(`/`);
+        } else {
+          this.$router.push(route);
+        }
       } catch (err) {
         this.danger();
       }

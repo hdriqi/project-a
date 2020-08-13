@@ -36,7 +36,12 @@
                             :label="menu.name"
                             @click="_ => {
                           if (!menu.child) {
-                            move(menu.name)
+                            if(menu.isMultiple){
+                              move(menu.name)
+                            }
+                            else{
+                              findRoute(menu.name)
+                            }
                           }
                         }"
                           >
@@ -44,7 +49,14 @@
                               v-for="(menuChild, index) in menu.child"
                               :key="index"
                               :label="menuChild.name"
-                              @click="move(menuChild.name)"
+                              @click="_ => {
+                                if(menuChild.isMultiple){
+                                  move(menuChild.name)
+                                }
+                                else{
+                                  findRoute(menuChild.name)
+                                }
+                              }"
                             ></b-menu-item>
                           </b-menu-item>
                         </b-menu-item>
@@ -93,7 +105,22 @@ export default {
     };
   },
   methods: {
-    move(path) {
+    async findRoute(menuName) {
+      const url = `http://localhost:8000/api/collections/${menuName}`;
+      try {
+        const { data } = await axios.get(url);
+        if (data.data.length) {
+          const id = data.data[0]._id;
+          this.$router.push(`/section/${menuName.toLowerCase()}/edit/${id}`);
+        } else {
+          this.$router.push(`/section/${menuName.toLowerCase()}/add`);
+        }
+      } catch (error) {
+        throw error;
+      }
+    },
+    async move(path) {
+      console.log("move path..", path);
       const route = `/section/${path.toLowerCase()}`;
       this.$router.push(route);
     },
@@ -136,6 +163,7 @@ export default {
           }
         }
       });
+      console.log(newMenus);
       return newMenus;
     },
     formMenu: function () {

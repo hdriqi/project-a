@@ -637,6 +637,7 @@ module.exports = [
   },
   {
     name: "test-aja",
+    parent: "test",
     type: "content",
     isMultiple: false,
     fields: [
