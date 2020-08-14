@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="max-w-lg mr-auto">
     <section style="display: flex; flex-direction: column;">
       <textInput
         v-for="field in textComponent"
@@ -94,10 +94,20 @@
         order: multipleTextComponentOrder[key]
       }"
       >
-        <div class="input-title">
-          <p class="subtitle" style="font-size:16px;">
+        <div class="input-title flex justify-between">
+          <p style="font-size:16px;">
             <b>{{key}}</b>
           </p>
+          <div>
+            <b-button
+              type="is-primary"
+              icon-right="plus"
+              class="button-schedule"
+              @click="addMultipleText(0,key)"
+              label="Add"
+              size="is-small"
+            />
+          </div>
         </div>
         <multipleText
           v-for="(input,index) in multipleTextInputValue[key]"

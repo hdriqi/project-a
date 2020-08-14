@@ -1,5 +1,5 @@
 <template>
-  <div class="text-input" :style="{
+  <div class="mb-4" :style="{
     order: order
   }">
     <b-field :label="title">

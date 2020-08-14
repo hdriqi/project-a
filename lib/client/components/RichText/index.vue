@@ -1,6 +1,6 @@
 <template>
   <client-only>
-    <section class="richtext-input" :style="{
+    <section class="mb-4" :style="{
       order: order
     }">
       <div class="input-title">

@@ -1,5 +1,5 @@
 <template>
-  <div class="checkbox-input" :style="{
+  <div class="mb-4" :style="{
     order: order
   }">
     <div class="field">

@@ -1,31 +1,21 @@
 <template>
-  <div class="columns text-input" :style="{
+  <div class="flex items-center justify-between mb-4" :style="{
     order: order
   }">
-    <div class="column">
+    <div class="flex-grow pr-4">
       <b-field>
         <b-input v-model="obj.value" :placeholder="placeholder" :type="type"></b-input>
       </b-field>
     </div>
-    <div class="column" v-if="index == 0">
-      <b-button
-        v-if="index == 0"
-        type="is-primary"
-        icon-right="plus"
-        class="button-schedule"
-        @click="add(index,name)"
-        label="price"
-        size="is-small"
-      />
-    </div>
-    <div class="column" v-if="isMin">
+    <div class="flex">
       <b-button
         type="is-danger"
-        label="price"
+        label="Remove"
         icon-right="minus"
-        class="button-schedule"
+        class="button-schedule ml-auto"
         @click="remove(index,name)"
         size="is-small"
+        :disabled="!isMin"
       />
     </div>
   </div>
@@ -46,9 +36,3 @@ export default {
   ],
 };
 </script>
-
-<style scoped>
-.text-input {
-  margin-bottom: 1.5%;
-}
-</style>

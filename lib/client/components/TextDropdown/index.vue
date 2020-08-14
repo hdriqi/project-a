@@ -1,5 +1,5 @@
 <template>
-  <div class="text-dropdown" :style="{
+  <div class="mb-4" :style="{
     order: order
   }">
     <div class="input-title">
