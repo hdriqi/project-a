@@ -47,6 +47,7 @@ export default {
     const columns = [
       {
         field: "id",
+        component: 'text',
         label: "ID",
         numeric: false,
         sortable: false,
@@ -57,6 +58,7 @@ export default {
         field: i.name,
         label: i.name,
         sortable: true,
+        component: i.component,
         numeric:
           i.type === "number" || i.type === "array_number" ? true : false,
       });
@@ -64,7 +66,8 @@ export default {
 
     columns.push({
       field: "date",
-      label: "Date",
+      component: 'date',
+      label: "date",
       sortable: false,
       numeric: false,
     });

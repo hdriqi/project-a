@@ -172,7 +172,6 @@ export default {
           }
         }
       });
-      console.log(newMenus);
       return newMenus;
     },
     formMenu: function () {

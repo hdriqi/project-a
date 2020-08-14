@@ -34,13 +34,21 @@
           :numeric="field.numeric"
           :sortable="field.sortable"
           class="truncate overflow-hidden max-w-sm"
-        >{{props.row[field.field]}}</b-table-column>
+        >
+        <!-- {{props.row[field.field]}} -->
+        <column 
+          :data="props.row[field.field]" 
+          :field="field"
+        />
+        </b-table-column>
       </template>
     </b-table>
   </section>
 </template>
 
 <script>
+import column from '../Column'
+
 export default {
   props: [
     "data",
@@ -53,6 +61,9 @@ export default {
     "onPageChange",
     "onSort",
   ],
+  components: {
+    column
+  }
 };
 </script>
 

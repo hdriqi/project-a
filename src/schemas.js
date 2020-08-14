@@ -85,6 +85,7 @@ module.exports = [
       },
       {
         name: "schedules",
+        type: "array_text",
         component: "multiple_text",
         componentType: "text",
         multipleTextMin: 2,
@@ -188,10 +189,10 @@ module.exports = [
       },
       {
         name: "schedules",
-        type: "array_schedule",
-        component: "schedule",
-        componentType: "student",
-        scheduleMin: 3,
+        type: "array_text",
+        component: "multiple_text",
+        componentType: "text",
+        multipleTextMin: 4,
       },
       {
         name: "tutorNote",
@@ -254,7 +255,6 @@ module.exports = [
         type: "text",
         component: "textarea",
         componentType: "teacher",
-        scheduleMin: 4,
         validation: (input) => {
           return [input && input.length > 0, "vision must be at least 1 characters"]
         },
