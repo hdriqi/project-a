@@ -106,7 +106,7 @@ export default {
   },
   methods: {
     async findRoute(menuName) {
-      const url = `http://localhost:8000/api/collections/${menuName}`;
+      const url = `http://localhost:8000/api/collections/${menuName.toLowerCase()}`;
       try {
         const { data } = await axios.get(url);
         if (data.data.length) {

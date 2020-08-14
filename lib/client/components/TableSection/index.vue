@@ -17,6 +17,15 @@
       class="my-table"
     >
       <template slot-scope="props">
+        <b-table-column label="Actions" class="">
+          <div class="flex">
+            <button class="button is-small is-light my-button" @click.prevent="edit(props.row)">Edit</button>
+            <button
+              class="ml-2 button is-small is-danger my-button"
+              @click.prevent="onDelete(props.row)"
+            >Delete</button>
+          </div>
+        </b-table-column>
         <b-table-column
           v-for="field in columns"
           :field="field.field"
@@ -24,14 +33,8 @@
           :key="field.label"
           :numeric="field.numeric"
           :sortable="field.sortable"
+          class="truncate overflow-hidden max-w-sm"
         >{{props.row[field.field]}}</b-table-column>
-        <b-table-column label="Actions">
-          <button class="button is-small is-light my-button" @click.prevent="edit(props.row)">Edit</button>
-          <button
-            class="button is-small is-danger my-button"
-            @click.prevent="onDelete(props.row)"
-          >Delete</button>
-        </b-table-column>
       </template>
     </b-table>
   </section>
@@ -53,8 +56,8 @@ export default {
 };
 </script>
 
-<style scoped>
-.my-table {
+<style>
+.table-wrapper {
   overflow: auto !important;
 }
 .my-button {

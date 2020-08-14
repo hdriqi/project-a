@@ -237,6 +237,11 @@ module.exports = [
     isMultiple: false,
     fields: [
       {
+        name: "img",
+        type: "text",
+        component: "upload"
+      },
+      {
         name: "intro",
         type: "text",
         component: "textarea",
