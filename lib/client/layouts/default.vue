@@ -73,7 +73,7 @@
                         </b-menu-item>
                       </b-menu-list>
                       <b-menu-list label="Actions">
-                        <b-menu-item icon="logout" label="Logout"></b-menu-item>
+                        <b-menu-item icon="logout" label="Logout" @click="logout"></b-menu-item>
                       </b-menu-list>
                     </b-menu>
                   </div>
@@ -123,6 +123,15 @@ export default {
       console.log("move path..", path);
       const route = `/section/${path.toLowerCase()}`;
       this.$router.push(route);
+    },
+    async logout() {
+      this.$buefy.dialog.confirm({
+        message: "Continue logout?",
+        onConfirm: () => {
+          window.localStorage.removeItem("token");
+          window.location.replace('/')
+        },
+      });
     },
     async login() {
       try {
