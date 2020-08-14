@@ -23,22 +23,33 @@
     </div>
     <div class="tile is-ancestor media">
       <div class="tile is-parent is-4" v-for="item in paginatedItems" :key="item.title">
-        <div class="tile is-child box">
+        <div class="tile is-child box w-full">
           <figure class="image is-square" v-if="!loading && item.type =='image'">
             <a @click="imageModal(item.address)">
-              <img :src="item.address" :alt="item.fileName" />
+              <img class="object-cover" :src="item.address" :alt="item.fileName" />
             </a>
           </figure>
           <figure class="image is-square" v-if="!loading && item.type =='document'">
             <a :href="item.address">
               <img
+                class="object-cover"
                 src="https://png.pngtree.com/png-vector/20190216/ourlarge/pngtree-vector-document-icon-png-image_541782.jpg"
                 :alt="item.fileName"
               />
             </a>
           </figure>
           <b-skeleton size="is-large" :active="loading" :count="1" :height="220"></b-skeleton>
-          <p class="subtitle" style="text-align:center">{{item.fileName}}</p>
+          <div class="flex items-center justify-between mt-2">
+            <div class="w-2/3 overflow-hidden">
+              <p class="m-0 truncate">{{item.fileName}}</p>
+            </div>
+            <div class="w-1/3 flex">
+              <button
+                class="ml-auto button is-small is-danger"
+                @click="_ => deleteFile(item.uniqueName)"
+              >Delete</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -85,6 +96,33 @@ export default {
         <img src="${src}">
         </p>`
       );
+    },
+    async deleteFile(key) {
+      const self = this;
+      this.$buefy.dialog.confirm({
+        message: "Confirm delete?",
+        onConfirm: async () => {
+          try {
+            const response = await axios.delete(
+              `${process.env.BASE_URL}/api/medias/${key}`
+            );
+            const idx = this.items.findIndex((item) => item.uniqueName === key);
+            self.items.splice(idx, 1);
+            self.$buefy.notification.open({
+              message: "Deleted Successfully",
+              type: "is-success",
+            });
+          } catch (err) {
+            const notif = self.$buefy.notification.open({
+              duration: 5000,
+              message: `Failed to delete data`,
+              position: "is-top-right",
+              type: "is-danger",
+              hasIcon: true,
+            });
+          }
+        },
+      });
     },
     filterData() {
       if (this.selector === "none") {
