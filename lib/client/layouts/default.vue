@@ -28,6 +28,9 @@
                 <b-sidebar position="static" type="is-light" open>
                   <div class="p-1">
                     <b-menu class="is-custom-mobile">
+                      <b-menu-list label="Home">
+                        <b-menu-item :active="sidebarActive('/')" label="Stats" @click="move('/')"></b-menu-item>
+                      </b-menu-list>
                       <b-menu-list label="Menu">
                         <b-menu-item label="Content">
                           <b-menu-item
@@ -105,6 +108,9 @@ export default {
     };
   },
   methods: {
+    sidebarActive(path) {
+      return this.$route.path == path;
+    },
     async findRoute(menuName) {
       const url = `http://localhost:8000/api/collections/${menuName.toLowerCase()}`;
       try {
@@ -120,8 +126,10 @@ export default {
       }
     },
     async move(path) {
-      console.log("move path..", path);
-      const route = `/section/${path.toLowerCase()}`;
+      let route = `/section/${path.toLowerCase()}`;
+      if (path === "/") {
+        route = `/`;
+      }
       this.$router.push(route);
     },
     async logout() {
@@ -129,7 +137,7 @@ export default {
         message: "Continue logout?",
         onConfirm: () => {
           window.localStorage.removeItem("token");
-          window.location.replace('/')
+          window.location.replace("/");
         },
       });
     },
