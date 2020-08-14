@@ -1,12 +1,12 @@
 <template>
   <div>
-    <div v-if="field.component === 'date'">{{data | parseDate}}</div>
-    <div v-else-if="field.component === 'rich-text'">{{ data | parseRichText }}</div>
+    <div class="truncate" v-if="field.component === 'date'">{{data | parseDate}}</div>
+    <div class="truncate" v-else-if="field.component === 'rich-text'">{{ data | parseRichText }}</div>
     <div v-else-if="field.component === 'upload'">
-      <a :href="data" target="_blank">{{ data }}</a>
+      <a class="truncate" :href="data" target="_blank">{{ data }}</a>
     </div>
-    <div v-else-if="field.component === 'multiple_text' || field.component === 'checkbox' ">{{data | parseMultipleText}}</div>
-    <div v-else>{{data}}</div>
+    <div class="truncate" v-else-if="field.component === 'multiple_text' || field.component === 'checkbox' ">{{data | parseMultipleText}}</div>
+    <div class="truncate" v-else>{{data}}</div>
   </div>
 </template>
 
@@ -29,10 +29,6 @@ export default {
     parseDate(val) {
       return formatDate(val)
     }
-  },
-  mounted() {
-    console.log(`data ${this.data}`);
-    console.log(`field ${JSON.stringify(this.field)}`);
   },
 };
 </script>
