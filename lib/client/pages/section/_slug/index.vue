@@ -113,7 +113,6 @@ export default {
             item.date = item.createdAt;
             this.data.push(item);
           });
-          console.log(this.data);
           this.loading = false;
         })
         .catch((error) => {
