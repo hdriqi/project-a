@@ -124,7 +124,7 @@ export default {
       (i) => i.name.toLowerCase() === params.slug
     )[0];
 
-    const url = `http://localhost:8000/api/collections/${params.slug}?_id=${params.id}`;
+    const url = `${process.env.BASE_URL}/api/collections/${params.slug}?_id=${params.id}`;
     let oneData;
     let listKeysData;
     try {
@@ -500,7 +500,7 @@ export default {
 
       try {
         const { data } = await axios.put(
-          `http://localhost:8000/api/collections/${this.path}/${this.id}`,
+          `${process.env.BASE_URL}/api/collections/${this.path}/${this.id}`,
           form
         );
         const route = `/section/${this.path.toLowerCase()}`;

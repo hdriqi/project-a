@@ -75,7 +75,7 @@ export default {
       this.dropFiles.splice(index, 1);
     },
     async uploadPicture() {
-      const url = `http://localhost:8000/api/upload`;
+      const url = `${process.env.BASE_URL}/api/upload`;
       let mediaFile = new FormData();
       mediaFile.append("file", this.uploadFile);
       try {

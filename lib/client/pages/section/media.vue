@@ -63,9 +63,9 @@ import axios from "axios";
 
 export default {
   async asyncData({ params }) {
-    const { data } = await axios.get(`http://localhost:8000/api/medias`);
+    const { data } = await axios.get(`${process.env.BASE_URL}/api/medias`);
     data.data.forEach((element) => {
-      element.address = `http://localhost:8000/cdn/${element.uniqueName}`;
+      element.address = `${process.env.BASE_URL}/cdn/${element.uniqueName}`;
       element.date = new Date(element.createdAt);
       const fileFormat = element.uniqueName.slice(
         element.uniqueName.length - 3,

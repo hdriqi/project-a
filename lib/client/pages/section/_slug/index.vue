@@ -98,7 +98,7 @@ export default {
       ].join("&");
 
       this.loading = true;
-      const url = `http://localhost:8000/api/collections/${this.path}`;
+      const url = `${process.env.BASE_URL}/api/collections/${this.path}`;
       axios
         .get(url)
         .then(({ data }) => {
@@ -137,7 +137,7 @@ export default {
       this.$router.push(route);
     },
     deleteData(value) {
-      const url = `http://localhost:8000/api/collections/${this.path}/${value.id}`;
+      const url = `${process.env.BASE_URL}/api/collections/${this.path}/${value.id}`;
       this.loading = true;
       axios
         .delete(url)

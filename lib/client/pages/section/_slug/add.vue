@@ -471,7 +471,7 @@ export default {
 
       try {
         const { data } = await axios.post(
-          `http://localhost:8000/api/collections/${this.path}`,
+          `${process.env.BASE_URL}/api/collections/${this.path}`,
           form
         );
         const route = `/section/${this.path.toLowerCase()}`;

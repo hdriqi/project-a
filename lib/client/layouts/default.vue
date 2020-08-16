@@ -112,7 +112,7 @@ export default {
       return this.$route.path == path;
     },
     async findRoute(menuName) {
-      const url = `http://localhost:8000/api/collections/${menuName.toLowerCase()}`;
+      const url = `${process.env.BASE_URL}/api/collections/${menuName.toLowerCase()}`;
       try {
         const { data } = await axios.get(url);
         if (data.data.length) {
