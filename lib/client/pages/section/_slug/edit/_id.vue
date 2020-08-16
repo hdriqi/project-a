@@ -45,6 +45,7 @@
         :obj="uploadInputValue[field.name]"
         :loading="openLoading"
         :order="field.order"
+        :isUpload="uploadInputValue[field.name]"
       ></uploadInput>
       <radio
         v-for="field in radioComponent"

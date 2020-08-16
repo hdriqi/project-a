@@ -7,18 +7,17 @@
         <b>{{title}}</b>
       </p>
     </div>
-    <div class="columns is-vcentered" v-if="!isUpload || remove">
-      <div class="column is-one-third"></div>
-      <div class="column is-one-third">
-        <b-button type="is-info is-small" @click="uploadPicture">upload</b-button>
+    <div v-if="!isUpload || remove">
+      <div class="mt-2">
+        <b-button type="is-info is-small" :disabled="!uploadFile" @click="uploadPicture">Upload</b-button>
         <b-button
           v-if="isUpload"
           type="is-small"
           @click="remove = false"
           style="float:right; position: relative;  z-index: 99;"
           icon="close"
-        >cancel</b-button>
-        <b-field>
+        >Cancel</b-button>
+        <b-field class="mt-2">
           <b-upload v-model="dropFiles" multiple drag-drop expanded>
             <section class="section">
               <div class="content has-text-centered">
@@ -37,22 +36,22 @@
           </span>
         </div>
       </div>
-      <div class="column is-one-third"></div>
     </div>
-    <div class="columns is-vcentered" v-if="isUpload && !remove">
-      <div class="column is-one-third"></div>
-      <div class="column is-one-third">
-        <b-button
-          type="is-danger is-small"
-          @click="remove = true"
-          style="float:right; position: relative;  z-index: 99;"
-          icon="close"
-        >X</b-button>
-        <figure class="image is-256x256">
-          <img :src="obj.value" :alt="obj.value" />
-        </figure>
+    <div v-if="isUpload && !remove">
+      <div class="mt-2">
+        <div class="flex justify-end">
+          <b-button
+            type="is-danger is-small"
+            @click="remove = true"
+            icon="close"
+          >Remove</b-button>
+        </div>
+        <div class="mt-2">
+          <figure class="image is-256x256">
+            <img :src="obj.value" :alt="obj.value" />
+          </figure>
+        </div>
       </div>
-      <div class="column is-one-third"></div>
     </div>
   </div>
 </template>
@@ -78,14 +77,15 @@ export default {
       const url = `${process.env.BASE_URL}/api/upload`;
       let mediaFile = new FormData();
       mediaFile.append("file", this.uploadFile);
+      this.loading();
       try {
         const { data } = await axios.post(url, mediaFile, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
         });
-        this.loading();
         this.obj.value = data.url;
+        this.remove = false
         this.success();
       } catch (err) {
         console.log(err.response.data);
