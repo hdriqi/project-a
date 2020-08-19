@@ -290,7 +290,7 @@ module.exports = [
       {
         name: "description",
         type: "text",
-        component: "text",
+        component: "textarea",
       },
     ],
   },
@@ -313,7 +313,7 @@ module.exports = [
       {
         name: "description",
         type: "text",
-        component: "text",
+        component: "textarea",
       },
     ],
   },
@@ -336,7 +336,7 @@ module.exports = [
       {
         name: "message",
         type: "text",
-        component: "text",
+        component: "textarea",
       },
     ],
   },
@@ -348,12 +348,12 @@ module.exports = [
       {
         name: "question",
         type: "text",
-        component: "text",
+        component: "textarea",
       },
       {
         name: "answer",
         type: "text",
-        component: "text",
+        component: "textarea",
       },
     ],
   },
@@ -457,9 +457,14 @@ module.exports = [
         component: "text",
       },
       {
+        name: "pricingNotes",
+        type: "text",
+        component: "textarea",
+      },
+      {
         name: "office",
         type: "text",
-        component: "text",
+        component: "textarea",
       },
       {
         name: "facebook",

@@ -10,7 +10,9 @@ module.exports = [
       'COMPANY_GET', 
       'WHY_GET',
       'METHODS_GET',
+      'TESTIMONIALS_GET',
       'PRICING_GET',
+      'FAQ_GET',
       'NEWS_GET',
       'TEAM_GET',
       'INFO_GET'
