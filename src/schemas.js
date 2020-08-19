@@ -92,12 +92,14 @@ module.exports = [
       },
       {
         name: "subjects",
+        type: "array_text",
         component: "multiple_text",
         componentType: "text",
         multipleTextMin: 1,
       },
       {
         name: "areas",
+        type: "array_text",
         component: "multiple_text",
         componentType: "text",
         multipleTextMin: 1,
@@ -183,9 +185,9 @@ module.exports = [
       },
       {
         name: "subjects",
-        type: "checkbox",
-        default: ["Matematika SMA", "Fisika SMA", "Kimia SMA", "Biologi SMA"],
-        component: "checkbox",
+        type: "array_text",
+        component: "multiple_text",
+        componentType: "text",
       },
       {
         name: "schedules",
@@ -201,14 +203,14 @@ module.exports = [
       },
       {
         name: "teacher",
-        type: "checkbox",
-        default: ["Laki-laki", "Wanita"],
-        component: "checkbox",
+        type: "array_text",
+        component: "multiple_text",
+        componentType: "text",
       },
       {
         name: "package",
         type: "enum",
-        default: ["8 sesi", "24 sesi", "48 sesi"],
+        default: ["8", "24", "48"],
         component: "radio",
       },
     ],
@@ -450,10 +452,35 @@ module.exports = [
         component: "text",
       },
       {
+        name: "officeHours",
+        type: "text",
+        component: "text",
+      },
+      {
         name: "office",
         type: "text",
         component: "text",
-      }
+      },
+      {
+        name: "facebook",
+        type: "text",
+        component: "text",
+      },
+      {
+        name: "twitter",
+        type: "text",
+        component: "text",
+      },
+      {
+        name: "instagram",
+        type: "text",
+        component: "text",
+      },
+      {
+        name: "tiktok",
+        type: "text",
+        component: "text",
+      },
     ],
   },
 ]

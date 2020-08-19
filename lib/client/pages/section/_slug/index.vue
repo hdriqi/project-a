@@ -173,9 +173,16 @@ export default {
       const route = `/section/${this.path.toLowerCase()}/add`;
       this.$router.push(route);
     },
-    downloadExcel() {
-      const route = `/api/collections/download/${this.path.toLowerCase()}`;
-      window.open(route);
+    async downloadExcel() {
+      const response = await axios.get(`${process.env.BASE_URL}/api/collections/download/${this.path.toLowerCase()}`, {
+        responseType: 'blob'
+      })
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', `${this.path.toLowerCase()}collection.xlsx`);
+      document.body.appendChild(link);
+      link.click();
     },
   },
   mounted() {
