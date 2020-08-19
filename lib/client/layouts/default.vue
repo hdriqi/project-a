@@ -193,6 +193,7 @@ export default {
         await axios.post(`/api/login`, {
           password: token,
         });
+        axios.defaults.headers.common['x-api-key'] = process.env.ROOT_KEY;
         this.isLoggedIn = true;
       } catch (err) {
         this.isLoggedIn = false;
