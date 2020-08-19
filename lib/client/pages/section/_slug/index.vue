@@ -1,12 +1,22 @@
 <template>
   <section>
     <div class="columns">
-      <div class="column is-four-fifths"></div>
+      <div class="column">
+        <b-button
+          v-if="data.length != 0"
+          type="is-primary"
+          icon-right="file"
+          class="button-slug"
+          @click="downloadExcel"
+          label="Download Excel Data"
+        />
+      </div>
       <div class="column">
         <b-button
           type="is-primary"
           icon-right="plus"
           class="button-slug"
+          style="float:right;"
           @click="move"
           label="Add Data"
         />
@@ -47,7 +57,7 @@ export default {
     const columns = [
       {
         field: "id",
-        component: 'text',
+        component: "text",
         label: "ID",
         numeric: false,
         sortable: false,
@@ -66,7 +76,7 @@ export default {
 
     columns.push({
       field: "date",
-      component: 'date',
+      component: "date",
       label: "date",
       sortable: false,
       numeric: false,
@@ -162,6 +172,10 @@ export default {
     move() {
       const route = `/section/${this.path.toLowerCase()}/add`;
       this.$router.push(route);
+    },
+    downloadExcel() {
+      const route = `/api/collections/download/${this.path.toLowerCase()}`;
+      window.open(route);
     },
   },
   mounted() {
