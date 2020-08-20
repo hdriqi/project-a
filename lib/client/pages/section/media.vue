@@ -63,19 +63,6 @@ import axios from "axios";
 
 export default {
   async asyncData({ params }) {
-    // const { data } = await axios.get(`${process.env.BASE_URL}/api/medias`);
-    // data.data.forEach((element) => {
-    //   element.address = `${process.env.BASE_URL}/cdn/${element.uniqueName}`;
-    //   element.date = new Date(element.createdAt);
-    //   const fileFormat = element.uniqueName.slice(
-    //     element.uniqueName.length - 3,
-    //     element.uniqueName.length
-    //   );
-    //   const pictureFormat = ["png", "jpg"];
-    //   pictureFormat.includes(fileFormat)
-    //     ? (element.type = "image")
-    //     : (element.type = "document");
-    // });
     return {
       items: [],
       resetData: [],
@@ -219,6 +206,9 @@ export default {
     });
     this.items = data.data
     this.resetData = data.data
+    setTimeout(() => {
+      this.loading = !this.loading;
+    }, 2 * 1000);
   },
 };
 </script>
