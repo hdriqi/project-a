@@ -62,24 +62,23 @@
 import axios from "axios";
 
 export default {
-  data() {
-    axios.defaults.headers.common['x-api-key'] = window.localStorage.getItem("token");
-    const { data } = await axios.get(`${process.env.BASE_URL}/api/medias`);
-    data.data.forEach((element) => {
-      element.address = `${process.env.BASE_URL}/cdn/${element.uniqueName}`;
-      element.date = new Date(element.createdAt);
-      const fileFormat = element.uniqueName.slice(
-        element.uniqueName.length - 3,
-        element.uniqueName.length
-      );
-      const pictureFormat = ["png", "jpg"];
-      pictureFormat.includes(fileFormat)
-        ? (element.type = "image")
-        : (element.type = "document");
-    });
+  async asyncData({ params }) {
+    // const { data } = await axios.get(`${process.env.BASE_URL}/api/medias`);
+    // data.data.forEach((element) => {
+    //   element.address = `${process.env.BASE_URL}/cdn/${element.uniqueName}`;
+    //   element.date = new Date(element.createdAt);
+    //   const fileFormat = element.uniqueName.slice(
+    //     element.uniqueName.length - 3,
+    //     element.uniqueName.length
+    //   );
+    //   const pictureFormat = ["png", "jpg"];
+    //   pictureFormat.includes(fileFormat)
+    //     ? (element.type = "image")
+    //     : (element.type = "document");
+    // });
     return {
-      items: data.data, 
-      resetData: data.data,
+      items: [],
+      resetData: [],
       loading: true,
       isImageModalActive: false,
       isSwitchedCustom: "Descending",
@@ -201,10 +200,25 @@ export default {
       );
     },
   },
-  mounted() {
-    setTimeout(() => {
-      this.loading = !this.loading;
-    }, 2 * 1000);
+  async mounted() {
+    axios.defaults.headers.common["x-api-key"] = window.localStorage.getItem(
+      "token"
+    );
+    const { data } = await axios.get(`${process.env.BASE_URL}/api/medias`);
+    data.data.forEach((element) => {
+      element.address = `${process.env.BASE_URL}/cdn/${element.uniqueName}`;
+      element.date = new Date(element.createdAt);
+      const fileFormat = element.uniqueName.slice(
+        element.uniqueName.length - 3,
+        element.uniqueName.length
+      );
+      const pictureFormat = ["png", "jpg"];
+      pictureFormat.includes(fileFormat)
+        ? (element.type = "image")
+        : (element.type = "document");
+    });
+    this.items = data.data
+    this.resetData = data.data
   },
 };
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-lg mr-auto">
+  <div v-if="!isFetching" class="max-w-lg mr-auto">
     <section style="display: flex; flex-direction: column;">
       <textInput
         v-for="field in textComponent"
@@ -162,8 +162,141 @@ export default {
     richText,
     multipleText,
   },
-  data() {
-    const params = this.$route.params
+  async asyncData({ params }) {
+    return {
+      isFetching: true,
+      isLoading: false,
+      isFullPage: false,
+    };
+  },
+  computed: {
+    checkboxInput: function () {
+      const keys = Object.keys(this.checkboxInputValue);
+      const result = {};
+      keys.forEach((element) => {
+        const filterArr = this.checkboxInputValue[element].filter(
+          (i) => i != null && i != false
+        );
+        result[element] = { value: filterArr };
+      });
+      return result;
+    },
+  },
+  methods: {
+    addSchedule(index, name) {
+      this.scheduleInputValue[name].push([
+        {
+          day: null,
+        },
+        {
+          hour: null,
+        },
+      ]);
+    },
+    addMultipleText(index, name) {
+      this.multipleTextInputValue[name].push({
+        value: null,
+      });
+    },
+    removeSchedule(index, name) {
+      this.scheduleInputValue[name].splice(index, 1);
+    },
+    removeMultipleText(index, name) {
+      this.multipleTextInputValue[name].splice(index, 1);
+    },
+    resetModel() {
+      window.location.reload(true);
+    },
+    openLoading() {
+      this.isLoading = true;
+      setTimeout(() => {
+        this.isLoading = false;
+      }, 1000);
+    },
+    success() {
+      setTimeout(() => {
+        this.$buefy.notification.open({
+          message: "Data Submitted Successfully",
+          type: "is-info",
+        });
+      }, 1300);
+    },
+    danger() {
+      const notif = this.$buefy.notification.open({
+        duration: 5000,
+        message: `Failed to Submit Data`,
+        position: "is-bottom-right",
+        type: "is-danger",
+        hasIcon: true,
+      });
+      notif.$on("close", () => {
+        this.$buefy.notification.open("notification closed!");
+      });
+    },
+    async submit() {
+      const inputValue = [
+        this.textInputValue,
+        this.textAreaInputValue,
+        this.dropdownInputValue,
+        this.radioInputValue,
+        this.checkboxInput,
+        this.richTextInputValue,
+        this.uploadInputValue,
+      ];
+
+      const form = {};
+      inputValue.forEach((inputValue) => {
+        Object.keys(inputValue).forEach((key) => {
+          form[key] = inputValue[key].value;
+        });
+      });
+
+      // Schedule Data
+      Object.keys(this.scheduleInputValue).forEach((key) => {
+        form[key] = this.scheduleInputValue[key];
+      });
+
+      // Multiple Text Data
+      Object.keys(this.multipleTextInputValue).forEach((key) => {
+        let arrayText = this.multipleTextInputValue[key].map(
+          (element) => element.value
+        );
+        form[key] = arrayText;
+      });
+
+      // Dropdown Text Data
+      Object.keys(this.textDropdownInputValue).forEach((key) => {
+        form[key] =
+          this.textDropdownInputValue[key].dropdown.value &&
+          this.textDropdownInputValue[key].text.value
+            ? this.textDropdownInputValue[key].dropdown.value +
+              " " +
+              this.textDropdownInputValue[key].text.value
+            : "";
+      });
+
+      try {
+        const { data } = await axios.put(
+          `${process.env.BASE_URL}/api/collections/${this.path}/${this.id}`,
+          form
+        );
+        const route = `/section/${this.path.toLowerCase()}`;
+        this.openLoading();
+        this.success();
+        if (!this.isMultiple) {
+          this.$router.push(`/`);
+        } else {
+          this.$router.push(route);
+        }
+      } catch (err) {
+        this.danger();
+      }
+    },
+  },
+  async mounted() {
+    
+    const params = this.$route.params;
+    
     const schemas = allSchemas.filter(
       (i) => i.name.toLowerCase() === params.slug
     )[0];
@@ -370,7 +503,7 @@ export default {
     const multipleTextComponentOrder = {};
 
     const multipleTextComponent = schemas.fields.filter((i) => {
-      if (i.component.toLowerCase() === "multiple_text") {        
+      if (i.component.toLowerCase() === "multiple_text") {
         multipleTextMin[i.name] = i.multipleTextMin;
         multipleTextInputValue[i.name] = [];
         multipleTextComponentType[i.name] = i.componentType;
@@ -394,170 +527,43 @@ export default {
 
     const multipleKey = Object.keys(multipleTextInputValue);
 
-    return {
-      schemas,
-      textInputValue,
-      textComponent,
-      textAreaInputValue,
-      textAreaComponent,
-      dropdownComponent,
-      dropdownInputValue,
-      dropdownDefault,
-      textDropdownComponent,
-      textDropdownInputValue,
-      textDropdownDefault,
-      uploadInputValue,
-      uploadComponent,
-      radioComponent,
-      radioInputValue,
-      radioDefault,
-      checkboxComponent,
-      checkboxInputValue,
-      checkboxDefault,
-      scheduleComponent,
-      scheduleInputValue,
-      scheduleMin,
-      scheduleKey,
-      scheduleComponentOrder,
-      scheduleComponentType,
-      richTextComponent,
-      richTextInputValue,
-      multipleTextInputValue,
-      multipleTextMin,
-      multipleTextComponentType,
-      multipleTextComponentOrder,
-      multipleKey,
-      path: params.slug,
-      id: params.id,
-      data: oneData,
-      isMultiple: schemas.isMultiple,
-      isLoading: false,
-      isFullPage: false,
-    };
-  },
-  computed: {
-    checkboxInput: function () {
-      const keys = Object.keys(this.checkboxInputValue);
-      const result = {};
-      keys.forEach((element) => {
-        const filterArr = this.checkboxInputValue[element].filter(
-          (i) => i != null && i != false
-        );
-        result[element] = { value: filterArr };
-      });
-      return result;
-    },
-  },
-  methods: {
-    addSchedule(index, name) {
-      this.scheduleInputValue[name].push([
-        {
-          day: null,
-        },
-        {
-          hour: null,
-        },
-      ]);
-    },
-    addMultipleText(index, name) {
-      this.multipleTextInputValue[name].push({
-        value: null,
-      });
-    },
-    removeSchedule(index, name) {
-      this.scheduleInputValue[name].splice(index, 1);
-    },
-    removeMultipleText(index, name) {
-      this.multipleTextInputValue[name].splice(index, 1);
-    },
-    resetModel() {
-      window.location.reload(true);
-    },
-    openLoading() {
-      this.isLoading = true;
-      setTimeout(() => {
-        this.isLoading = false;
-      }, 1000);
-    },
-    success() {
-      setTimeout(() => {
-        this.$buefy.notification.open({
-          message: "Data Submitted Successfully",
-          type: "is-info",
-        });
-      }, 1300);
-    },
-    danger() {
-      const notif = this.$buefy.notification.open({
-        duration: 5000,
-        message: `Failed to Submit Data`,
-        position: "is-bottom-right",
-        type: "is-danger",
-        hasIcon: true,
-      });
-      notif.$on("close", () => {
-        this.$buefy.notification.open("notification closed!");
-      });
-    },
-    async submit() {
-      const inputValue = [
-        this.textInputValue,
-        this.textAreaInputValue,
-        this.dropdownInputValue,
-        this.radioInputValue,
-        this.checkboxInput,
-        this.richTextInputValue,
-        this.uploadInputValue,
-      ];
-
-      const form = {};
-      inputValue.forEach((inputValue) => {
-        Object.keys(inputValue).forEach((key) => {
-          form[key] = inputValue[key].value;
-        });
-      });
-
-      // Schedule Data
-      Object.keys(this.scheduleInputValue).forEach((key) => {
-        form[key] = this.scheduleInputValue[key];
-      });
-
-      // Multiple Text Data
-      Object.keys(this.multipleTextInputValue).forEach((key) => {
-        let arrayText = this.multipleTextInputValue[key].map(
-          (element) => element.value
-        );
-        form[key] = arrayText;
-      });
-
-      // Dropdown Text Data
-      Object.keys(this.textDropdownInputValue).forEach((key) => {
-        form[key] =
-          this.textDropdownInputValue[key].dropdown.value &&
-          this.textDropdownInputValue[key].text.value
-            ? this.textDropdownInputValue[key].dropdown.value +
-              " " +
-              this.textDropdownInputValue[key].text.value
-            : "";
-      });
-
-      try {
-        const { data } = await axios.put(
-          `${process.env.BASE_URL}/api/collections/${this.path}/${this.id}`,
-          form
-        );
-        const route = `/section/${this.path.toLowerCase()}`;
-        this.openLoading();
-        this.success();
-        if (!this.isMultiple) {
-          this.$router.push(`/`);
-        } else {
-          this.$router.push(route);
-        }
-      } catch (err) {
-        this.danger();
-      }
-    },
+    this.schemas = schemas;
+    this.textInputValue = textInputValue;
+    this.textComponent = textComponent;
+    this.textAreaInputValue = textAreaInputValue;
+    this.textAreaComponent = textAreaComponent;
+    this.dropdownComponent = dropdownComponent;
+    this.dropdownInputValue = dropdownInputValue;
+    this.dropdownDefault = dropdownDefault;
+    this.textDropdownComponent = textDropdownComponent;
+    this.textDropdownInputValue = textDropdownInputValue;
+    this.textDropdownDefault = textDropdownDefault;
+    this.uploadInputValue = uploadInputValue;
+    this.uploadComponent = uploadComponent;
+    this.radioComponent = radioComponent;
+    this.radioInputValue = radioInputValue;
+    this.radioDefault = radioDefault;
+    this.checkboxComponent = checkboxComponent;
+    this.checkboxInputValue = checkboxInputValue;
+    this.checkboxDefault = checkboxDefault;
+    this.scheduleComponent = scheduleComponent;
+    this.scheduleInputValue = scheduleInputValue;
+    this.scheduleMin = scheduleMin;
+    this.scheduleKey = scheduleKey;
+    this.scheduleComponentOrder = scheduleComponentOrder;
+    this.scheduleComponentType = scheduleComponentType;
+    this.richTextComponent = richTextComponent;
+    this.richTextInputValue = richTextInputValue;
+    this.multipleTextInputValue = multipleTextInputValue;
+    this.multipleTextMin = multipleTextMin;
+    this.multipleTextComponentType = multipleTextComponentType;
+    this.multipleTextComponentOrder = multipleTextComponentOrder;
+    this.multipleKey = multipleKey;
+    this.path = params.slug
+    this.id = params.id
+    this.data = oneData
+    this.isMultiple = schemas.isMultiple
+    this.isFetching = false;
   },
 };
 </script>
