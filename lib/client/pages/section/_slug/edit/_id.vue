@@ -151,7 +151,19 @@ import richText from "../../../../components/RichText";
 import multipleText from "../../../../components/MultipleText";
 
 export default {
-  async asyncData({ params }) {
+  components: {
+    checkbox,
+    dropdown,
+    radio,
+    textInput,
+    textAreaInput,
+    textDropDown,
+    uploadInput,
+    richText,
+    multipleText,
+  },
+  data() {
+    const params = this.$route.params
     const schemas = allSchemas.filter(
       (i) => i.name.toLowerCase() === params.slug
     )[0];
@@ -166,7 +178,7 @@ export default {
     let oneData;
     let listKeysData;
     try {
-      axios.defaults.headers.common['x-api-key'] = process.env.ROOT_KEY;
+      axios.defaults.headers.common['x-api-key'] = window.localStorage.getItem("token");
       const { data } = await axios.get(url);
       oneData = data.data[0];
       listKeysData = oneData;
@@ -419,21 +431,6 @@ export default {
       id: params.id,
       data: oneData,
       isMultiple: schemas.isMultiple,
-    };
-  },
-  components: {
-    checkbox,
-    dropdown,
-    radio,
-    textInput,
-    textAreaInput,
-    textDropDown,
-    uploadInput,
-    richText,
-    multipleText,
-  },
-  data() {
-    return {
       isLoading: false,
       isFullPage: false,
     };

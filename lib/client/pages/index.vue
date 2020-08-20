@@ -25,29 +25,6 @@ import Axios from "axios";
 const minSchedule = 3;
 
 export default {
-  async asyncData(context) {
-    const schedule = [];
-    for (let i = 0; i < minSchedule; i++) {
-      schedule.push([
-        {
-          day: null,
-        },
-        {
-          hour: null,
-        },
-      ]);
-    }
-    Axios.defaults.headers.common['x-api-key'] = process.env.ROOT_KEY;
-    const mediaUsage = await Axios.get(
-      `${process.env.BASE_URL}/api/stats/medias`
-    );
-    return {
-      scheduleInputs: schedule,
-      minValue: minSchedule - 1,
-      maxStorage: process.env.MAX_STORAGE,
-      usedStorage: mediaUsage.data.data,
-    };
-  },
   components: {
     checkbox,
     dropdown,
@@ -91,7 +68,26 @@ export default {
     },
   },
   data() {
+    const schedule = [];
+    for (let i = 0; i < minSchedule; i++) {
+      schedule.push([
+        {
+          day: null,
+        },
+        {
+          hour: null,
+        },
+      ]);
+    }
+    axios.defaults.headers.common['x-api-key'] = window.localStorage.getItem("token");
+    const mediaUsage = await Axios.get(
+      `${process.env.BASE_URL}/api/stats/medias`
+    );
     return {
+      scheduleInputs: schedule,
+      minValue: minSchedule - 1,
+      maxStorage: process.env.MAX_STORAGE,
+      usedStorage: mediaUsage.data.data,
       isPlus: minSchedule - 1,
       checkbox: ["Matematika", "Fisika", "Kimia", "Biologi"],
       checkboxInputValue: [],

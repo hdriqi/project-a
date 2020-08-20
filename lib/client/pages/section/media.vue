@@ -62,8 +62,8 @@
 import axios from "axios";
 
 export default {
-  async asyncData({ params }) {
-    axios.defaults.headers.common['x-api-key'] = process.env.ROOT_KEY;
+  data() {
+    axios.defaults.headers.common['x-api-key'] = window.localStorage.getItem("token");
     const { data } = await axios.get(`${process.env.BASE_URL}/api/medias`);
     data.data.forEach((element) => {
       element.address = `${process.env.BASE_URL}/cdn/${element.uniqueName}`;
@@ -77,10 +77,9 @@ export default {
         ? (element.type = "image")
         : (element.type = "document");
     });
-    return { items: data.data, resetData: data.data };
-  },
-  data() {
     return {
+      items: data.data, 
+      resetData: data.data,
       loading: true,
       isImageModalActive: false,
       isSwitchedCustom: "Descending",
