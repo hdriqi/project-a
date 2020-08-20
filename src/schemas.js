@@ -457,9 +457,14 @@ module.exports = [
         component: "text",
       },
       {
+        name: "termsAndConditionsFile",
+        type: "text",
+        component: "upload",
+      },
+      {
         name: "pricingNotes",
         type: "text",
-        component: "textarea",
+        component: "rich-text",
       },
       {
         name: "office",
