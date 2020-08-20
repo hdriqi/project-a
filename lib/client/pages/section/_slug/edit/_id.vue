@@ -166,6 +166,7 @@ export default {
     let oneData;
     let listKeysData;
     try {
+      axios.defaults.headers.common['x-api-key'] = process.env.ROOT_KEY;
       const { data } = await axios.get(url);
       oneData = data.data[0];
       listKeysData = oneData;

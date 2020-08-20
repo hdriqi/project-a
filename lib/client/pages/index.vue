@@ -37,6 +37,7 @@ export default {
         },
       ]);
     }
+    axios.defaults.headers.common['x-api-key'] = process.env.ROOT_KEY;
     const mediaUsage = await Axios.get(
       `${process.env.BASE_URL}/api/stats/medias`
     );

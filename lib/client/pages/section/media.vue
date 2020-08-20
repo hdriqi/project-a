@@ -63,6 +63,7 @@ import axios from "axios";
 
 export default {
   async asyncData({ params }) {
+    axios.defaults.headers.common['x-api-key'] = process.env.ROOT_KEY;
     const { data } = await axios.get(`${process.env.BASE_URL}/api/medias`);
     data.data.forEach((element) => {
       element.address = `${process.env.BASE_URL}/cdn/${element.uniqueName}`;
