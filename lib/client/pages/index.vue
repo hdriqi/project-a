@@ -25,6 +25,31 @@ import Axios from "axios";
 const minSchedule = 3;
 
 export default {
+  async asyncData(context) {
+    if (!process.server) {
+      const schedule = [];
+      for (let i = 0; i < minSchedule; i++) {
+        schedule.push([
+          {
+            day: null,
+          },
+          {
+            hour: null,
+          },
+        ]);
+      }
+      axios.defaults.headers.common['x-api-key'] = window.localStorage.getItem('token');
+      const mediaUsage = await Axios.get(
+        `${process.env.BASE_URL}/api/stats/medias`
+      );
+      return {
+        scheduleInputs: schedule,
+        minValue: minSchedule - 1,
+        maxStorage: process.env.MAX_STORAGE,
+        usedStorage: mediaUsage.data.data,
+      };
+    }
+  },
   components: {
     checkbox,
     dropdown,
