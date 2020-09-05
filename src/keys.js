@@ -22,7 +22,8 @@ module.exports = [
     key: process.env.CLIENT_WRITE_KEY,
     access: [
       'STUDENT_POST',
-      'TUTOR_POST'
+      'TUTOR_POST',
+      'ONLINE_POST'
     ]
   },
 ]

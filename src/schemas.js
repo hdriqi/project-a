@@ -216,6 +216,39 @@ module.exports = [
     ],
   },
   {
+    name: "Online",
+    type: "Form",
+    fields: [
+      {
+        name: "fullname",
+        type: "text",
+        component: "text",
+      },
+      {
+        name: "schoolName",
+        type: "text",
+        component: "text",
+      },
+      {
+        name: "phoneNumber",
+        type: "text",
+        component: "text",
+      },
+      {
+        name: "email",
+        type: "text",
+        component: "text",
+      },
+      {
+        name: "subjects",
+        type: "array_text",
+        component: "multiple_text",
+        componentType: "text",
+        multipleTextMin: 1,
+      }
+    ]
+  },
+  {
     name: "Slides",
     parent: "Home",
     isMultiple: true,
@@ -455,6 +488,16 @@ module.exports = [
         name: "officeHours",
         type: "text",
         component: "text",
+      },
+      {
+        name: "onlineClassSchedule",
+        type: "text",
+        component: "upload",
+      },
+      {
+        name: "onlineClassTermsAndConditionsFile",
+        type: "text",
+        component: "upload",
       },
       {
         name: "termsAndConditionsFile",
